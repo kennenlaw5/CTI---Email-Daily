@@ -1,6 +1,6 @@
 function onOpen() {
   //Created By Kennen Lawrence
-  //Version 1.0
+  //Version 1.3
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var ui = SpreadsheetApp.getUi();
   ui.createMenu('Utilities').addSubMenu(ui.createMenu('Help').addItem('By Phone','menuItem1').addItem('By Email','menuItem2')).addItem('Refresh Report','report').addToUi();

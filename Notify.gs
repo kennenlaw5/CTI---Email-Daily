@@ -1,6 +1,6 @@
 function sendNotification() {
   //Created By Kennen Lawrence
-  //Version 1.2 (Added function to generate user's name)
+  //Version 1.2.1 (Added function to generate user's name)
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var ui = SpreadsheetApp.getUi();
   ss.getSheetByName("Shhhhh....").hideSheet();

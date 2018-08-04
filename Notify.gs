@@ -18,10 +18,15 @@ function sendNotification() {
     var indvSheet=ss.getSheetByName("Individuals");
     var ranger=sheet2.getRange(1,mode,sheet2.getLastRow()).getDisplayValues();
     var range=indvSheet.getRange(2,1,indvSheet.getLastRow()-1,driver("mainColumns")+1).getValues(); /*Gets values from "Main" sheet Ends on column before "Include" column*/
-    Logger.log("Range: ");Logger.log(range);
     var info=sheet.getRange(1,driver("As of"),3,1).getDisplayValues(); /*Gets 'Date' and 'As Of' values*/
     var includeIndv=indvSheet.getRange(2,driver("Include"),indvSheet.getLastRow()-1,3).getValues();
     var day=info[0][0];var asOf=info[2][0];
+    if(day.split(" ")[0]=="Saturday"){
+      Logger.log("It's Saturday");
+      for(var i=0;i<includeIndv.length;i++){
+        if(includeIndv[i][2]!=driver("<31")){includeIndv[i][2]=driver("31-60");}
+      }
+    }
     var subject = "Outbound Activity - "+day;
     var sender=getName();
     var body;var recipients="";var check=false;

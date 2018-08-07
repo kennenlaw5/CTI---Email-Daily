@@ -50,10 +50,10 @@ function teamInfo(team) {
       return ["Agye Spencer","Jacob Ford","Kathy Powell","Chris Castro","Jeff Tucker","Conner Graves"];
       break;
     case "Anna":
-      return ["Sam Nejad","Connor Hanlon","Ace Taylor-Brown","Jenny Kim","Craig Smeton","Andrew Sapoznik","Erin Vangilder"];
+      return ["Sam Nejad","Connor Hanlon","Ace Taylor-Brown","Jenny Kim","Andrew Sapoznik","Erin Vangilder"];
       break;
     case "Seth":
-      return ["Jeff Hanson","Chuck Northrup","Christopher Leirer","Alexander Duquette","Marlowe Jones","Shaun Welch"];
+      return ["Jeff Hanson","Chuck Northrup","Christopher Leirer","Alexander Duquette","Marlowe Jones","Shaun Welch","Craig Smeton"];
       break;
     case "Dean":
       return ["Ben Wegener","Timothy Green", "Joshua Ackerman"];

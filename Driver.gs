@@ -44,7 +44,7 @@ function teamInfo(team) {
       return ["Brian Neal","Jonathan Wingfield","Omar Johnson","Jeremy Sanchez","Ian Hudgens","Demitri Gavito","Scott Vye"];
       break;
     case "Ben":
-      return ["Patrick Quinlan","Tony Moomau","Karen Timmons","Troy Roth","Will Lovell"];
+      return ["Patrick Quinlan","Tony Moomau","Karen Timmons","Troy Roth","Willard Lovell"];
       break;
     case "Robb":
       return ["Agye Spencer","Jacob Ford","Kathy Powell","Chris Castro","Conner Graves","Steven Nelson"];

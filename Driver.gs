@@ -56,7 +56,7 @@ function teamInfo(team) {
       return ["Jeff Hanson","Chuck Northrup","Christopher Leirer","Alexander Duquette","Marlowe Jones","Craig Smeton","Jenny Kim"];
       break;
     case "Dean":
-      return ["Ben Wegener","Timothy Green", "Joshua Ackerman"];
+      return ["Ben Wegener","Timothy Green", "Joshua Ackerman","Fika Host"];
       break;
     case "Teams":
       return ["Team Jeff","Team Ben","Team Robb","Team Anna","Team Seth","Team Dean"];

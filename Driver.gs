@@ -41,7 +41,7 @@ function driver(input){
 function teamInfo(team) {
   switch(team){
     case "Jeff":
-      return ["Brian Neal","Jonathan Wingfield","Omar Johnson","Jeremy Sanchez","Ian Hudgens","Demitri Gavito","Scott Vye"];
+      return ["Brian Neal","Omar Johnson","Jeremy Sanchez","Ian Hudgens","Demitri Gavito","Scott Vye"];
       break;
     case "Ben":
       return ["Patrick Quinlan","Tony Moomau","Karen Timmons","Troy Roth","Willard Lovell"];

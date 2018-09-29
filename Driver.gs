@@ -53,7 +53,7 @@ function teamInfo(team) {
       return ["Sam Nejad","Connor Hanlon","Ace Taylor-Brown","Andrew Sapoznik","Erin Vangilder", "Shaun Welch"/*,"Wil Lemon"*/];
       break;
     case "Seth":
-      return ["Jeff Hanson","Chuck Northrup","Christopher Leirer","Alexander Duquette","Marlowe Jones","Craig Smeton","Jenny Kim"];
+      return ["Jeff Hanson","Chuck Northrup","Christopher Leirer","Alexander Duquette","Marlowe Jones","Craig Smeton"];
       break;
     case "Dean":
       return ["Ben Wegener","Timothy Green", "Joshua Ackerman","Fika Host"];

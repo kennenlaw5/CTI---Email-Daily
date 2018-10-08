@@ -69,6 +69,7 @@ function sendNotification() {
     else{ui.alert('At least ONE team MUST be included in order to send the email! Please include a team, then try again!',ui.ButtonSet.OK);}
   }else{ss.toast('Action was cancelled! Email was not sent!','Cancelled');}
 }
+
 function bodyGen(iCti,iEmails,iTexts,iRecv,asOf,day,iAppts,includeIndv){
   //Created By Kennen Lawrence
   //Version 3.1
@@ -101,8 +102,10 @@ function bodyGen(iCti,iEmails,iTexts,iRecv,asOf,day,iAppts,includeIndv){
   for(var i=0;i<teams.length;i++){teamCount[i]=0;}//Loop to inititalize teamCount array based off of the number of teams
   for(var i=0;i<includeIndv.length;i++){ //Loop to determine active team count
     for(var j=0;j<teams.length;j++){
-      if(includeIndv[i][0]==teams[j] && includeIndv[i][1]=="Yes" && includeIndv[i][2]==driver("61+")){teamCount[j]+=15;}
-      else if(includeIndv[i][0]==teams[j] && includeIndv[i][1]=="Yes" && includeIndv[i][2]==driver("31-60")){teamCount[j]+=10;}
+      if (includeIndv[i][0] == teams[j] && includeIndv[i][1] == "Yes") {
+        if (includeIndv[i][2] == driver("61+")) { teamCount[j]+=15; }
+        else if(includeIndv[i][2] == driver("31-60")){ teamCount[j]+=10; }
+      }
     }
   }
   for(var i=0;i<teams.length;i++){

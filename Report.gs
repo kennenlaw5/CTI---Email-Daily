@@ -25,9 +25,11 @@ function report() {
   var source3=ss.getSheetByName("BDC Activity Report");
   var target=ss.getSheetByName("Main");
   ss.getSheetByName("Shhhhh....").hideSheet();
-  var numRows=source1.getLastRow();var numCol=source1.getLastColumn();
+  var numRows=source1.getLastRow();
+  var numCol=source1.getLastColumn();
   var range1=source1.getRange(1,1,numRows,numCol).getValues();
-  numRows=source3.getLastRow();numCol=source3.getLastColumn();
+  numRows=source3.getLastRow();
+  numCol=source3.getLastColumn();
   var range3=source3.getRange(1,1,numRows,numCol).getValues();
   var name;var found=false;
   var jeff=[0,0,0,0,0];var ben=[0,0,0,0,0];var robb=[0,0,0,0,0];var dean=[0,0,0,0,0];

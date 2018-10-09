@@ -8,7 +8,7 @@ function sendNotification() {
   var mode=driver("mode"); //Mode 1 will send email to all; if number is set to 2, will put up maintanance alert.
   if(mode==2){ //Create maintanance prompt and allow for overide
     var overide=ui.prompt('Under Maintanance!','Down for maintanance! Will be up again shortly! :D',ui.ButtonSet.OK);
-    if(overide.getResponseText().toLowerCase()!='overide'){return;}
+    if(overide.getResponseText().toLowerCase()!='override'){return;}
   }
   var input=ui.alert("Are you sure you'd like to send the notification?",ui.ButtonSet.YES_NO);
   if(input==ui.Button.YES){

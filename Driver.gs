@@ -1,7 +1,7 @@
 function driver(input){
   switch(input){
     case "mode":
-      var mode=1; //Mode 1 will send email to all; if number is set to 2, will put up maintanance alert.
+      var mode = 1; //Mode 1 will send email to all; if number is set to 2, will put up maintanance alert.
       return mode;
       break;
     case "mainColumns":
@@ -41,22 +41,22 @@ function driver(input){
 function teamInfo(team) {
   switch(team){
     case "Jeff":
-      return ["Brian Neal","Omar Johnson","Jeremy Sanchez","Ian Hudgens","Demitri Gavito","Scott Vye"];
+      return ["Omar Johnson","Jeremy Sanchez","Ian Hudgens","Demitri Gavito","Scott Vye"];
       break;
     case "Ben":
-      return ["Patrick Quinlan","Tony Moomau","Troy Roth","Willard Lovell","Stephen Giese"];
+      return ["Patrick Quinlan","Tony Moomau","Troy Roth","Willard Lovell","Stephen Giese"/*,"Demir"*/];
       break;
     case "Robb":
-      return ["Agye Spencer","Jacob Ford","Kathy Powell","Chris Castro","Conner Graves","Steven Nelson"];
+      return ["Agye Spencer","Jacob Ford","Kathy Powell","Chris Castro","Conner Graves","Steven Nelson","Mo Kayeni"];
       break;
     case "Anna":
-      return ["Sam Nejad","Connor Hanlon","Ace Taylor-Brown","Andrew Sapoznik","Erin Vangilder", "Shaun Welch"/*,"Wil Lemon"*/];
+      return ["Sam Nejad","Connor Hanlon","Ace Taylor-Brown","Andrew Sapoznik","Erin Vangilder", "Shaun Welch","Wil Lemon"];
       break;
     case "Seth":
-      return ["Jeff Hanson","Chuck Northrup","Christopher Leirer","Alexander Duquette","Marlowe Jones","Craig Smeton"];
+      return ["Jeff Hanson","Chuck Northrup","Christopher Leirer","Alexander Duquette","Marlowe Jones","Craig Smeton","Patrick Stenson"];
       break;
     case "Dean":
-      return ["Timothy Green", "Joshua Ackerman","Fika Host"];
+      return ["Timothy Green", "Joshua Ackerman","Fika Host","Brian Neal"];
       break;
     case "Teams":
       return ["Team Jeff","Team Ben","Team Robb","Team Anna","Team Seth","Team Dean"];

@@ -41,19 +41,19 @@ function driver(input){
 function teamInfo(team) {
   switch(team){
     case "Jeff":
-      return ["Omar Johnson","Jeremy Sanchez","Ian Hudgens","Demitri Gavito"];
+      return ["Omar Johnson","Ian Hudgens","Demitri Gavito","Alexander Duquette","Steven Nelson",'Shahin Nia'];
       break;
     case "Ben":
       return ["Patrick Quinlan","Tony Moomau","Troy Roth","Willard Lovell","Stephen Giese","Damir Memisevic"];
       break;
     case "Robb":
-      return ["Agye Spencer","Jacob Ford","Kathy Powell","Chris Castro","Conner Graves","Steven Nelson","Mo Kayeni"];
+      return ["Agye Spencer","Kathy Powell","Chris Castro","Conner Graves","Mo Kayeni"];
       break;
     case "Anna":
       return ["Sam Nejad","Connor Hanlon","Ace Taylor-Brown","Andrew Sapoznik","Erin Vangilder","Wil Lemon"];
       break;
     case "Seth":
-      return ["Jeff Hanson","Chuck Northrup","Christopher Leirer","Alexander Duquette","Marlowe Jones","Craig Smeton","Patrick Stenson"];
+      return ["Jeff Hanson","Chuck Northrup","Christopher Leirer","Marlowe Jones","Craig Smeton","Patrick Stenson","Toby Hesketh-Tutton"];
       break;
     case "Dean":
       return ["Timothy Green", "Joshua Ackerman","Fika Host","Brian Neal"];

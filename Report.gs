@@ -85,6 +85,7 @@ function report() {
   var timestamp = d.toLocaleTimeString();
   timestamp = timestamp.split(' MDT')[0];
   timestamp = timestamp.split(' MST')[0];
+  timestamp = timestamp.split(':');
   timestamp = [timestamp[0], timestamp[1]].join(':') + timestamp[2].split(' ')[1];
   target.getRange(2, 2, driver('numTeams'), driver('mainColumns')-1).setValues(teams);
   target.getRange(11, 2, 1, 2).setValues([[timestamp, d]]);

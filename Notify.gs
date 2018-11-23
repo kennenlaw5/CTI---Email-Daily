@@ -60,6 +60,7 @@ function sendNotification() {
       var timestamp = d.toLocaleTimeString();
       timestamp = timestamp.split(" MDT")[0];
       timestamp = timestamp.split(" MST")[0];
+      timestamp = timestamp.split(':');
       timestamp = [timestamp[0], timestamp[1]].join(':') + timestamp[2].split(' ')[1];
       if (mode != 2) {sheet.getRange(9,driver("As of")-1,1,2).setValues([[timestamp, d]]); }
       ss.getSheetByName("Main").getRange(2, driver("Include"), driver("numTeams")).setValue(true);

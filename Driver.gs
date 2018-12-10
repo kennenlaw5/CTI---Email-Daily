@@ -44,22 +44,22 @@ function teamInfo(team) {
       return ['Omar Johnson', 'Ian Hudgens', 'Demitri Gavito', 'Shahin Nia'];
       break;
     case 'Ben':
-      return ['Patrick Quinlan', 'Tony Moomau', 'Troy Roth', 'Willard Lovell', 'Stephen Giese', 'Damir Memisevic'];
+      return ['Patrick Quinlan', 'Tony Moomau', 'Troy Roth', 'Stephen Giese', 'Damir Memisevic', 'James Pryor'];
       break;
     case 'Robb':
       return ['Agye Spencer', 'Kathy Powell', 'Chris Castro', 'Conner Graves', 'Mo Kayeni'];
       break;
-    case 'Anna':
-      return ['Sam Nejad', 'Connor Hanlon', 'Ace Taylor-Brown', 'Andrew Sapoznik', 'Tina Watson', 'Wil Lemon'];
+    case 'Dean':
+      return ['Sam Nejad', 'Connor Hanlon', 'Ace Taylor-Brown', 'Andrew Sapoznik'];
       break;
     case 'Seth':
-      return ['Jeff Hanson', 'Chuck Northrup', 'Christopher Leirer', 'Marlowe Jones', 'Alexander Duquette', 'Patrick Stenson', 'Toby Hesketh-Tutton'];
+      return ['Jeff Hanson', 'Chuck Northrup', 'Christopher Leirer', 'Marlowe Jones', 'Alexander Duquette', 'Patrick Stenson', 'Toby Hesketh-Tutton', 'Tina Watson'];
       break;
-    case 'Dean':
+    case 'Portfolio':
       return ['Timothy Green', 'Joshua Ackerman', 'Fika Host', 'Brian Neal'];
       break;
     case 'Teams':
-      return ['Team Jeff', 'Team Ben', 'Team Robb', 'Team Anna', 'Team Seth', 'Team Dean'];
+      return ['Team Jeff', 'Team Ben', 'Team Robb', 'Team Dean', 'Team Seth', 'Team Portfolio'];
       break;
     default:
       Logger.log(team+ ' team was invalid');

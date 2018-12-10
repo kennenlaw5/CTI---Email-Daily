@@ -33,17 +33,17 @@ function report() {
   var range3=source3.getRange(1,1,numRows,numCol).getValues();
   var name;var found=false;
   var jeff=[0,0,0,0,0];var ben=[0,0,0,0,0];var robb=[0,0,0,0,0];var dean=[0,0,0,0,0];
-  var anna=[0,0,0,0,0];var seth=[0,0,0,0,0];
+  var portfolio=[0,0,0,0,0];var seth=[0,0,0,0,0];
   
   var tjeff=teamInfo('Jeff');
   var tben=teamInfo('Ben');
   var trobb=teamInfo('Robb');
-  var tanna=teamInfo('Anna');
+  var tportfolio=teamInfo('Portfolio');
   var tseth=teamInfo('Seth');
   var tdean=teamInfo('Dean');
   
-  var teamCA=[tjeff,tben,trobb,tanna,tseth,tdean];
-  var teams=[jeff,ben,robb,anna,seth,dean];
+  var teamCA=[tjeff,tben,trobb,tdean,tseth,tportfolio];
+  var teams=[jeff,ben,robb,dean,seth,portfolio];
   for(var i=1;i<range1.length;i++){
     if(range1[i][2]!=''){
       name=range1[i][2];
@@ -101,17 +101,18 @@ function reportInd(range1,range3) {
   var source3=ss.getSheetByName('BDC Activity Report');
   var target=ss.getSheetByName('Individuals');var numRows;
   var name=[];var found=false;var n=0;
-  var jeff=[];var ben=[];var robb=[];var anna=[];var seth=[];var dean=[];var final=[];var type;
+  var jeff=[];var ben=[];var robb=[];var portfolio=[];var seth=[];var dean=[];var final=[];var type;
   
-  var tjeff=teamInfo('Jeff');
-  var tben=teamInfo('Ben');
-  var trobb=teamInfo('Robb');
-  var tanna=teamInfo('Anna');
-  var tseth=teamInfo('Seth');
-  var tdean=teamInfo('Dean');
+  var tjeff = teamInfo('Jeff');
+  var tben = teamInfo('Ben');
+  var trobb = teamInfo('Robb');
+  var tportfolio = teamInfo('Portfolio');
+  var tseth = teamInfo('Seth');
+  var tdean = teamInfo('Dean');
   
-  var teamCA=[tjeff,tben,trobb,tanna,tseth,tdean];
-  var teamFinal=[jeff,ben,robb,anna,seth,dean];
+  var teamCA = [tjeff, tben, trobb, tdean, tseth, tportfolio];
+  var teamFinal = [jeff, ben, robb, dean, seth, portfolio];
+  
   var teams=teamInfo('Teams');
   for(var i=0;i<teamCA.length;i++){
     for(var j=0;j<teamCA[i].length;j++){

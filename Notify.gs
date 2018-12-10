@@ -88,17 +88,10 @@ function bodyGen(iCti,iEmails,iTexts,iRecv,asOf,day,iAppts,includeIndv) {
   var body = '<HTML><BODY><font size = "5" color = "black">Outbound Activity as of - '+asOf+' '+day+'</font><br/><br/>';
   if (notes != '') {body += '<font size = "3" color = "black"><u>'+notes+'</u></font><br/><br/>'; }
   var teams = teamInfo("Teams");
-  var tjeff = teamInfo("Jeff/Anna");//Count 10
-  var tben = teamInfo("Ben/Mark");//Count 10
-  var trobb = teamInfo("Robb/Seth");//Count 11
-  var tdean = teamInfo("Dean/Liz");//Count 2
-  var teamCA = [tjeff,tben,trobb,tdean];
   body += "<table border = '1' color = 'black',cellpadding = '10',cellspacing = '0', width = '"+driver("tableWidth")+"'>";
-  var cti;
-  var emails;var font;var color = "black";
-  var texts;
+  var cti, emails, font, texts, currentReq;
+  var color = "black";
   var check = false;
-  var currentReq;
   var teamCount = [];//Array for team counts
   for (var i = 0; i < teams.length; i++) {teamCount[i] = 0; }//Loop to inititalize teamCount array based off of the number of teams
   for (var i = 0; i < includeIndv.length; i++) { //Loop to determine active team count

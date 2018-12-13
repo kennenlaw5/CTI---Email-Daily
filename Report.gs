@@ -12,9 +12,9 @@ function menuItem1() {
 function menuItem2() {
   //Created By Kennen Larence
   var ui = SpreadsheetApp.getUi();
-  var input = ui.prompt('Email Help','Describe the issue you\'re having in the box below, then press "Ok" to submit your issue via email:',ui.ButtonSet.OK_CANCEL);
+  var input = ui.prompt('Email Help', 'Describe the issue you\'re having in the box below, then press "Ok" to submit your issue via email:', ui.ButtonSet.OK_CANCEL);
   if (input.getSelectedButton() == ui.Button.OK) {
-    MailApp.sendEmail('kennen.lawrence@a2zsync.com','HELP CTI & Email Daily',input.getResponseText(),{name:getName()});
+    MailApp.sendEmail('kennen.lawrence@a2zsync.com', 'HELP CTI & Email Daily', input.getResponseText(), { name:getName() });
   }
 }
 function report() {
@@ -32,18 +32,19 @@ function report() {
   numCol=source3.getLastColumn();
   var range3=source3.getRange(1,1,numRows,numCol).getValues();
   var name;var found=false;
-  var jeff=[0,0,0,0,0];var ben=[0,0,0,0,0];var robb=[0,0,0,0,0];var dean=[0,0,0,0,0];
-  var portfolio=[0,0,0,0,0];var seth=[0,0,0,0,0];
+  var jeff=[0, 0, 0, 0, 0];var ben=[0, 0, 0, 0, 0];var robb=[0, 0, 0, 0, 0];var dean=[0, 0, 0, 0, 0];
+  var portfolio=[0, 0, 0, 0, 0];var seth=[0,0,0,0,0]; var sales = [0, 0, 0, 0, 0]
   
-  var tjeff=teamInfo('Jeff');
-  var tben=teamInfo('Ben');
-  var trobb=teamInfo('Robb');
-  var tportfolio=teamInfo('Portfolio');
-  var tseth=teamInfo('Seth');
-  var tdean=teamInfo('Dean');
+  var tjeff = teamInfo('Jeff');
+  var tben = teamInfo('Ben');
+  var trobb = teamInfo('Robb');
+  var tportfolio = teamInfo('Portfolio');
+  var tseth = teamInfo('Seth');
+  var tdean = teamInfo('Dean');
+  var tsales = teamInfo('Sales');
   
-  var teamCA=[tjeff,tben,trobb,tdean,tseth,tportfolio];
-  var teams=[jeff,ben,robb,dean,seth,portfolio];
+  var teamCA=[tjeff,tben,trobb,tdean,tseth,tportfolio,tsales];
+  var teams=[jeff,ben,robb,dean,seth,portfolio,sales];
   for(var i=1;i<range1.length;i++){
     if(range1[i][2]!=''){
       name=range1[i][2];
@@ -59,9 +60,9 @@ function report() {
       }
     }
     else{i=range1.length;}
-    if(found==false){Logger.log(name);}
+    //if(found==false){ Logger.log(name + ' was not found!'); }
   }
-  for(var i=0;i<range3.length;i++){if(range3[i][0]=='RepName'){numRows=parseInt(i)+1;i=range3.length;Logger.log('REPNAME');}}
+  for(var i=0;i<range3.length;i++){if(range3[i][0]=='RepName'){numRows=parseInt(i)+1;i=range3.length; /*Logger.log('REPNAME');*/}}
   for(var i=numRows;i<range3.length;i++){
     if(range3[i][0]!=''){
       name=range3[i][0];
@@ -88,7 +89,7 @@ function report() {
   timestamp = timestamp.split(':');
   timestamp = [timestamp[0], timestamp[1]].join(':') + timestamp[2].split(' ')[1];
   target.getRange(2, 2, driver('numTeams'), driver('mainColumns')-1).setValues(teams);
-  target.getRange(11, 2, 1, 2).setValues([[timestamp, d]]);
+  target.getRange(driver('numTeams') + 5, 2, 1, 2).setValues([[timestamp, d]]);
   checkBoxValidation();
   ss.toast('Reports have been updated!','Success!');
 }
@@ -101,7 +102,9 @@ function reportInd(range1,range3) {
   var source3=ss.getSheetByName('BDC Activity Report');
   var target=ss.getSheetByName('Individuals');var numRows;
   var name=[];var found=false;var n=0;
-  var jeff=[];var ben=[];var robb=[];var portfolio=[];var seth=[];var dean=[];var final=[];var type;
+  var jeff = [];var ben = [];var robb = [];var portfolio = [];
+  var seth = [];var dean = [];var final = [];
+  var sales = []; var type;
   
   var tjeff = teamInfo('Jeff');
   var tben = teamInfo('Ben');
@@ -109,9 +112,10 @@ function reportInd(range1,range3) {
   var tportfolio = teamInfo('Portfolio');
   var tseth = teamInfo('Seth');
   var tdean = teamInfo('Dean');
+  var tsales = teamInfo('Sales');
   
-  var teamCA = [tjeff, tben, trobb, tdean, tseth, tportfolio];
-  var teamFinal = [jeff, ben, robb, dean, seth, portfolio];
+  var teamCA = [tjeff, tben, trobb, tdean, tseth, tportfolio, tsales];
+  var teamFinal = [jeff, ben, robb, dean, seth, portfolio, sales];
   
   var teams=teamInfo('Teams');
   for(var i=0;i<teamCA.length;i++){
@@ -128,16 +132,16 @@ function reportInd(range1,range3) {
           if(name[j][0]==range1[i][2]){
             if(type=='Sent'){name[j][1]+=1;}
             else if(type=='Received'){name[j][4]+=1;}
-            else{Logger.log('NOT SENT OR RECEIVED');}
+            else{ Logger.log('NOT SENT OR RECEIVED'); }
             found=true;j=name.length;
           }
         }
       }
       if(found==false){
-        Logger.log(name);
+        //Logger.log(name);
         if(type=='Sent'){name[n]=[range1[i][2],1,0,0,0,0,''];}
         else if(type=='Received'){name[n]=[range1[i][2],0,0,0,1,0,''];}
-        else{Logger.log('NOT SENT OR RECEIVED');}
+        else{ Logger.log('NOT SENT OR RECEIVED'); }
         found=true;n++;
       }
     }
@@ -152,14 +156,14 @@ function reportInd(range1,range3) {
         if(name[j][0]==range3[i][0]){
           name[j][3]+=range3[i][12];
           name[j][2]+=range3[i][8];
-          name[j][5]+=range3[i][5];Logger.log(range3[i][5]);
+          name[j][5]+=range3[i][5];
           found=true;j=name.length;
         }
       }
       if(found==false){name[n]=[range3[i][0],0,range3[i][8],range3[i][12],0,range3[i][5],''];found=true;n++;}
     }
     else{i=range3.length;}
-    if(found==false){Logger.log('WUT?');}
+    if (found == false){ Logger.log('WUT?'); }
   }
   n=0;
   for(i=0;i<name.length;i++){

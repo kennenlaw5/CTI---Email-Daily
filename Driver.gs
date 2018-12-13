@@ -1,7 +1,7 @@
 function driver(input) {
   switch (input) {
     case 'mode':
-      var mode = 1; //Mode 1 will send email to all; if number is set to 2, will put up maintanance alert.
+      var mode = 2; //Mode 1 will send email to all; if number is set to 2, will put up maintanance alert.
       return mode;
       break;
     case 'mainColumns':
@@ -9,7 +9,7 @@ function driver(input) {
       return mainColumns;
       break;
     case 'numTeams':
-      var numTeams = 6;
+      var numTeams = 7;
       return numTeams;
       break;
     case 'As of':
@@ -17,8 +17,8 @@ function driver(input) {
       return dateColumn;
       break;
     case 'Include':
-      var include = 7; //Column on the 'Main' sheet that finds out if a team is included
-      return include;
+      var include_column = 7; //Column on the 'Main' sheet that finds out if a team is included
+      return include_column;
       break;
     case 'tableWidth':
       var width = 800; //Width of the table generated and sent
@@ -32,6 +32,12 @@ function driver(input) {
       break;
     case '61+':
       return '61+ Days';
+      break;
+    case '31-60 Req':
+      return 10;
+      break;
+    case '61+ Req':
+      return 15;
       break;
     default:
       Logger.log(input + ' was invalid.');
@@ -58,8 +64,11 @@ function teamInfo(team) {
     case 'Portfolio':
       return ['Timothy Green', 'Joshua Ackerman', 'Fika Host', 'Brian Neal'];
       break;
+    case 'Sales':
+      return ['David Toben', 'Jeff Capps', 'Alexa Gerner', 'Thomas Krohn'];
+      break;
     case 'Teams':
-      return ['Team Jeff', 'Team Ben', 'Team Robb', 'Team Dean', 'Team Seth', 'Team Portfolio'];
+      return ['Team Jeff', 'Team Ben', 'Team Robb', 'Team Dean', 'Team Seth', 'Team Portfolio', 'Sales Support'];
       break;
     default:
       Logger.log(team+ ' team was invalid');

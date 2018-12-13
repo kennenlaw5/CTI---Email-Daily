@@ -148,7 +148,7 @@ function bodyGen(iCti,iEmails,iTexts,iRecv,asOf,day,iAppts,includeIndv,MTD) {
       //Logger.log(teams[i]+": "+(preTotal[0]+preTotal[1]+preTotal[2]));
       body += "<tr><th colspan = '6' bgcolor = '"+font+"'><font size = '5' color = '"+color+"'><b><u>"+teams[i]+": ";
       
-      if (!isNaN(total)) { body += Math.round(total)+"% of Total Outbound Completed"; } //Should append % complete?
+      if (!isNaN(total) && teams[i] != 'Sales Support') { body += Math.round(total)+"% of Total Outbound Completed"; } //Should append % complete?
       
       body += "</u></b></font></th></tr><td bgcolor = 'white', Align = 'center'><font size = '4' color = 'black'><b>CA:</b></font></td>";
       

@@ -1,7 +1,7 @@
 function driver(input) {
   switch (input) {
     case 'mode':
-      var mode = 2; //Mode 1 will send email to all; if number is set to 2, will put up maintanance alert.
+      var mode = 1; //Mode 1 will send email to all; if number is set to 2, will put up maintanance alert.
       return mode;
       break;
     case 'mainColumns':

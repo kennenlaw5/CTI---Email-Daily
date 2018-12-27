@@ -39,6 +39,13 @@ function driver(input) {
     case '61+ Req':
       return 15;
       break;
+    case 'emails':
+      return [
+        ['deanw@schomp.com','Dean','Wentland'],
+        ['jeffe@schomp.com','Jeff','Edgell'],
+        ['kennen.lawrence@a2zsync.com','Kennen','Lawrence'],
+        ['deanw@schomp.com','Mark','Osborne']];
+      break;
     default:
       Logger.log(input + ' was invalid.');
       break;
@@ -50,10 +57,10 @@ function teamInfo(team) {
       return ['Omar Johnson', 'Ian Hudgens', 'Demitri Gavito', 'Shahin Nia'];
       break;
     case 'Ben':
-      return ['Patrick Quinlan', 'Tony Moomau', 'Troy Roth', 'Stephen Giese', 'Damir Memisevic', 'James Pryor'];
+      return ['Patrick Quinlan', 'Troy Roth', 'Damir Memisevic', 'James Pryor'];
       break;
     case 'Robb':
-      return ['Agye Spencer', 'Kathy Powell', 'Chris Castro', 'Conner Graves', 'Mo Kayeni'];
+      return ['Agye Spencer', 'Chris Castro', 'Conner Graves', 'Mo Kayeni', 'Jason Hovde'];
       break;
     case 'Dean':
       return ['Sam Nejad', 'Connor Hanlon', 'Ace Taylor-Brown', 'Andrew Sapoznik'];

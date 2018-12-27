@@ -226,16 +226,24 @@ function getName() {
   //Created By Kennen Lawrence
   //Version 1.0
   var email = Session.getActiveUser().getEmail();
-  var name;var first;var last;
-  name = email.split("@schomp.com");
-  name = name[0];
-  name = name.split(".");
-  first = name[0];
-  last = name[1];
+  var name, first, last;
+  var emails = driver('emails');
+  for (var i = 0; i < emails.length; i++) {
+    if (emails[i][0].toLowerCase() == email.toLowerCase()) {
+      first = emails[i][1];
+      last = emails[i][2];
+    }
+  }
+  if (first == undefined) {
+    name = email.split('@schomp.com');
+    name = name[0];
+    name = name.split('.');
+    first = name[0];
+    last = name[1];
+  }
   first = first[0].toUpperCase() + first.substring(1);
   last = last[0].toUpperCase() + last.substring(1);
   name = first+" "+last;
-//  Logger.log(name);
   return name;
 }
 

@@ -38,19 +38,19 @@ function report() {
   var robb=[0, 0, 0, 0, 0];
   var dean=[0, 0, 0, 0, 0];
   var portfolio=[0, 0, 0, 0, 0];
-  var seth=[0,0,0,0,0]; 
+  var liz=[0,0,0,0,0]; 
   var sales = [0, 0, 0, 0, 0]
   
   var tjeff = teamInfo('Jeff');
   var tben = teamInfo('Ben');
   var trobb = teamInfo('Robb');
   var tportfolio = teamInfo('Portfolio');
-  var tseth = teamInfo('Seth');
+  var tliz = teamInfo('Liz');
   var tdean = teamInfo('Dean');
   var tsales = teamInfo('Sales');
   
-  var teamCA = [tjeff, tben, trobb, tdean, tseth, tportfolio, tsales];
-  var teams = [jeff, ben, robb, dean, seth, portfolio, sales];
+  var teamCA = [tjeff, tben, trobb, tdean, tliz, tportfolio, tsales];
+  var teams = [jeff, ben, robb, dean, liz, portfolio, sales];
   
   for (var i = 1; i < range1.length; i++) {
     if (range1[i][2] != '') {
@@ -115,7 +115,7 @@ function reportInd(range1, range3) {
   var found = false;
   var n = 0;
   var jeff = [];var ben = [];var robb = [];var portfolio = [];
-  var seth = [];var dean = [];var final = [];
+  var liz = [];var dean = [];var final = [];
   var sales = []; 
   var type;
   
@@ -123,12 +123,12 @@ function reportInd(range1, range3) {
   var tben = teamInfo('Ben');
   var trobb = teamInfo('Robb');
   var tportfolio = teamInfo('Portfolio');
-  var tseth = teamInfo('Seth');
+  var tliz = teamInfo('Liz');
   var tdean = teamInfo('Dean');
   var tsales = teamInfo('Sales');
   
-  var teamCA = [tjeff, tben, trobb, tdean, tseth, tportfolio, tsales];
-  var teamFinal = [jeff, ben, robb, dean, seth, portfolio, sales];
+  var teamCA = [tjeff, tben, trobb, tdean, tliz, tportfolio, tsales];
+  var teamFinal = [jeff, ben, robb, dean, liz, portfolio, sales];
   
   var teams = teamInfo('Teams');
   for (var i = 0; i < teamCA.length; i++) {

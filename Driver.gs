@@ -54,18 +54,18 @@ function driver(input) {
 function teamInfo(team) {
   switch (team) {
     case 'Jeff':
-      return ['Omar Johnson', 'Ian Hudgens', 'Demitri Gavito', 'Shahin Nia'];
+      return ['Omar Johnson', 'Ian Hudgens', 'Demitri Gavito', 'Michael Barrett'];
       break;
     case 'Ben':
-      return ['Patrick Quinlan', 'Troy Roth', 'Damir Memisevic', 'James Pryor'];
+      return ['Patrick Quinlan', 'Troy Roth', 'Damir Memisevic', 'James Pryor', 'Shahin Nia'];
       break;
     case 'Robb':
-      return ['Agye Spencer', 'Chris Castro', 'Conner Graves', 'Mo Kayeni', 'Jason Hovde'];
+      return ['Chris Castro', 'Conner Graves', 'Mo Kayeni', 'Jason Hovde', 'Robert Bird'];
       break;
     case 'Dean':
-      return ['Sam Nejad', 'Connor Hanlon', 'Ace Taylor-Brown', 'Andrew Sapoznik'];
+      return ['Sam Nejad', 'Connor Hanlon', 'Ace Taylor-Brown', 'Andrew Sapoznik', 'Jeanne Tal'];
       break;
-    case 'Seth':
+    case 'Liz':
       return ['Jeff Hanson', 'Chuck Northrup', 'Christopher Leirer', 'Marlowe Jones', 'Alexander Duquette', 'Patrick Stenson', 'Toby Hesketh-Tutton', 'Tina Watson'];
       break;
     case 'Portfolio':
@@ -75,7 +75,7 @@ function teamInfo(team) {
       return ['David Toben', 'Jeff Capps', 'Alexa Gerner', 'Thomas Krohn'];
       break;
     case 'Teams':
-      return ['Team Jeff', 'Team Ben', 'Team Robb', 'Team Dean', 'Team Seth', 'Team Portfolio', 'Sales Support'];
+      return ['Team Jeff', 'Team Ben', 'Team Robb', 'Team Dean', 'Team Liz', 'Team Portfolio', 'Sales Support'];
       break;
     default:
       Logger.log(team+ ' team was invalid');

@@ -95,13 +95,22 @@ function bodyGen(iCti,iEmails,iTexts,iRecv,asOf,day,iAppts,includeIndv,MTD) {
   var notes = rawNotes.getResponseText() + '';
   var include = ss.getSheetByName('Main').getRange(2,driver('Include'),driver('numTeams')).getValues();
   var range = sheet.getRange(2,1,sheet.getLastRow()-1,driver('Include')).getValues();
-  var body = '<HTML><BODY><font size = "5" color = "black">Outbound Activity ';
+  var fontFam = "font-family: 'Google Sans',Roboto,RobotoDraft,Helvetica,Arial,sans-serif;";
+  var style = '<html><head><style>' +
+    'table {border-collapse: collapse; border: 5px solid black; color: black; ' + fontFam + '}' +
+      'table th {text-align: center; border: 3px solid black; color: black; padding-left: 5px; padding-right: 5px; font-size: x-large; ' + fontFam + '}' + 
+        'table td {text-align: center; border: 1px solid black; color: black; padding-left: 5px; padding-right: 5px; font-size: medium; ' + fontFam + '}' +
+//          'table tr {transition: 0.1s;}' +
+//            'table tr:hover {transform: scale(1.0025);border: 2px solid black;}' +
+          'h1 {color: black; font-size: medium; font-weight: 500; ' + fontFam + '}' +
+            '</style></head>';
+  var body = style + '<BODY><h1 style="font-size: x-large">Outbound Activity ';
   if (MTD) { body += 'MTD '; }
-  body += 'as of - ' + asOf + ' ' + day + '</font><br/><br/>';
-  if (notes != '') { body += '<font size = "3" color = "black"><u>'+notes+'</u></font><br/><br/>'; }
+  body += 'as of - ' + asOf + ' ' + day + '</h1>';
+  if (notes != '') { body += '<h1><u>' + notes + '</u></h1><br/>'; }
   var teams = teamInfo('Teams');
   var teamIsIncluded = [];
-  body += "<table border = '1' color = 'black',cellpadding = '10',cellspacing = '0', width = '"+driver("tableWidth")+"'>";
+  body += "<br/><table style='width: auto'>";
   var cti, emails, font, texts, currentReq;
   var color = 'black';
   var check = false;
@@ -146,32 +155,32 @@ function bodyGen(iCti,iEmails,iTexts,iRecv,asOf,day,iAppts,includeIndv,MTD) {
       else { total = (((preTotal[0]) * (1/3)) + ((preTotal[1]) * (1/3)) + ((preTotal[2]) * (1/3))) * 100; }
       if (total < 100) { if (total > 50) { font = "#EEEE16"; color = "black"; } else { font = "#FB3333"; color = "black"; } } else { font = "#11E31B"; color = "black"; }
       //Logger.log(teams[i]+": "+(preTotal[0]+preTotal[1]+preTotal[2]));
-      body += "<tr><th colspan = '6' bgcolor = '"+font+"'><font size = '5' color = '"+color+"'><b><u>"+teams[i]+": ";
+      body += "<tr><th style='color: " + color + "; background-color: " + font + ";' colspan = '6'><b><u>" + teams[i] + ": ";
       
       if (!isNaN(total) && teams[i] != 'Sales Support') { body += Math.round(total)+"% of Total Outbound Completed"; } //Should append % complete?
       
-      body += "</u></b></font></th></tr><td bgcolor = 'white', Align = 'center'><font size = '4' color = 'black'><b>CA:</b></font></td>";
+      body += "</u></b></th></tr><tr style='border: 2px solid black;'><td style='background-color: white; font-size: large;'><b>CA:</b></td>";
       
       if (iCti[i] / teamCount[i] < 1) { if (iCti[i] / teamCount[i] > 0.7) { font = "#EEEE16"; color = "black"; } else { font = "#FB3333"; color = "black"; } } else { font = "#11E31B"; color = "black"; }
       
-      body += "<td bgcolor = '" + font + "', Align = 'center'><font size = '4' color = '" + color + "'><b>CTI: " + iCti[i];
+      body += "<td style='background-color: " + font + "; font-size: large; color: " + color + ";'><b>CTI: " + iCti[i];
       
       if (teamCount[i] != 0) { body += "/" + teamCount[i]; }
       
       if (iEmails[i] / teamCount[i] < 1) { if (iEmails[i] / teamCount[i] > 0.7) { font = "#EEEE16"; color = "black"; } else { font = "#FB3333"; color = "black"; } } else { font = "#11E31B"; color = "black"; }
       
-      body += "</b></font></td><td bgcolor = '"+font+"', Align = 'center'><font size = '4' color = '"+color+"'><b>Email Out: " + iEmails[i];
+      body += "</b></td><td style='background-color: " + font + "; font-size: large; color: " + color + ";'><b>Email Out: " + iEmails[i];
       
       if (teamCount[i] != 0) { body += "/" + teamCount[i]; }
       
       if (iTexts[i] / teamCount[i] < 1) { if (iTexts[i] / teamCount[i] > 0.7) { font = "#EEEE16"; color = "black"; } else { font = "#FB3333"; color = "black"; } } else { font = "#11E31B"; color = "black"; }
       
-      body += "</b></font></td><td bgcolor = '"+font+"', Align = 'center'><font size = '4' color = '"+color+"'><b>Texts: " + iTexts[i];
+      body += "</b></td><td style='background-color: " + font + "; font-size: large; color: " + color + ";'><b>Texts: " + iTexts[i];
       
       if (teamCount[i] != 0) { body += "/" + teamCount[i]; }
       
-      body += "</b></font></td><td bgcolor = 'white', Align = 'center'><font size = '4' color = 'black'><b>Email In: "+iRecv[i]+"</b></font></td>";
-      body += "<td bgcolor = 'white', Align = 'center'><font size = '4' color = 'black'><b>Set Appt: "+iAppts[i]+"</b></font></td>";
+      body += "</b></td><td style='background-color: white; font-size: large;'><b>Email In: "+iRecv[i]+"</b></td>";
+      body += "<td style='background-color: white; font-size: large;'><b>Set Appt: "+iAppts[i]+"</b></td></tr>";
       for (var j = 0; j < range.length; j++) {
         if (range[j][driver('mainColumns')] == teams[i] && includeIndv[j][1]) {
           if (includeIndv[j][2] == driver('31-60')) {
@@ -188,23 +197,23 @@ function bodyGen(iCti,iEmails,iTexts,iRecv,asOf,day,iAppts,includeIndv,MTD) {
             }
           }
           if (includeIndv[j][2] != driver("<31")) {
-            body += "<tr><td bgcolor = 'white', Align = 'center'><font size = '3' color = 'black'>"+range[j][0]+"</font></td>";
+            body += "<tr><td style='background-color: white;'>" + range[j][0] + "</td>";
             if (range[j][2] < currentReq) { if (range[j][2] > 0.7 * currentReq) { font = "#EEEE16"; color = "black"; } else { font = "#FB3333"; color = "black"; } } else { font = "#11E31B"; color = "black"; }
-            body += "<td bgcolor = '"+font+"', Align = 'center'><font size = '3' color = '"+color+"'>"+range[j][2]+"/"+currentReq+"</font></td>";
+            body += "<td style='background-color: " + font + "; color: " + color + ";'>" + range[j][2] + "/" + currentReq + "</td>";
             if (range[j][1] < currentReq) { if (range[j][1] > 0.7 * currentReq) { font = "#EEEE16"; color = "black"; } else { font = "#FB3333"; color = "black"; } } else { font = "#11E31B"; color = "black"; }
-            body += "<td bgcolor = '"+font+"', Align = 'center'><font size = '3' color = '"+color+"'>"+range[j][1]+"/"+currentReq+"</font></td>";
+            body += "<td style='background-color: " + font + "; color: " + color + ";'>" + range[j][1] + "/" + currentReq + "</td>";
             if (range[j][3] < currentReq) { if (range[j][3] > 0.7 * currentReq) { font = "#EEEE16"; color = "black"; } else { font = "#FB3333"; color = "black"; } } else { font = "#11E31B"; color = "black"; }
-            body += "<td bgcolor = '"+font+"', Align = 'center'><font size = '3' color = '"+color+"'>"+range[j][3]+"/"+currentReq+"</font></td>";
-            body += "<td bgcolor = 'white', Align = 'center'><font size = '3' color = 'black'>"+range[j][4]+"</font></td>";
-            body += "<td bgcolor = 'white', Align = 'center'><font size = '3' color = 'black'>"+range[j][5]+"</font></td></tr>";
+            body += "<td style='background-color: " + font + "; color: " + color + ";'>" + range[j][3] + "/" + currentReq + "</td>";
+            body += "<td style='background-color: white;'>" + range[j][4] + "</td>";
+            body += "<td style='background-color: white;'>" + range[j][5] + "</td></tr>";
           }
           else {
-            body += "<tr><td bgcolor = 'white', Align = 'center'><font size = '3' color = 'black'>"+range[j][0]+"</font></td>";
-            body += "<td bgcolor = 'white', Align = 'center'><font size = '3' color = 'black'>"+range[j][2]+"</font></td>";
-            body += "<td bgcolor = 'white', Align = 'center'><font size = '3' color = 'black'>"+range[j][1]+"</font></td>";
-            body += "<td bgcolor = 'white', Align = 'center'><font size = '3' color = 'black'>"+range[j][3]+"</font></td>";
-            body += "<td bgcolor = 'white', Align = 'center'><font size = '3' color = 'black'>"+range[j][4]+"</font></td>";
-            body += "<td bgcolor = 'white', Align = 'center'><font size = '3' color = 'black'>"+range[j][5]+"</font></td></tr>";
+            body += "<tr><td style='background-color: white;'>" + range[j][0] + "</td>";
+            body += "<td style='background-color: white;'>" + range[j][2] + "</td>";
+            body += "<td style='background-color: white;'>" + range[j][1] + "</td>";
+            body += "<td style='background-color: white;'>" + range[j][3] + "</td>";
+            body += "<td style='background-color: white;'>" + range[j][4] + "</td>";
+            body += "<td style='background-color: white;'>" + range[j][5] + "</td></tr>";
           }
         }
       }
@@ -212,10 +221,8 @@ function bodyGen(iCti,iEmails,iTexts,iRecv,asOf,day,iAppts,includeIndv,MTD) {
     }
     //else { Logger.log("Skip"); }
   }
-  //Logger.log(cti);
-  //Logger.log("END OF bodyGen!!!");
-  if (check) { return body+"</table>" }
-  else { return "NONE" }
+  if (check) { return body+"</table>"; }
+  else { return "NONE"; }
 }
 
 function quotaCheck() {

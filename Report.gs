@@ -33,24 +33,24 @@ function report() {
   var range3 = source3.getRange(1, 1, numRows, numCol).getValues();
   var name;
   var found = false;
-  var jeff=[0, 0, 0, 0, 0];
+  var merrie=[0, 0, 0, 0, 0];
   var ben=[0, 0, 0, 0, 0];
   var robb=[0, 0, 0, 0, 0];
-  var dean=[0, 0, 0, 0, 0];
+  var josh=[0, 0, 0, 0, 0];
   var portfolio=[0, 0, 0, 0, 0];
   var liz=[0,0,0,0,0]; 
   var sales = [0, 0, 0, 0, 0]
   
-  var tjeff = teamInfo('Jeff');
+  var tmerrie = teamInfo('Merrie');
   var tben = teamInfo('Ben');
   var trobb = teamInfo('Robb');
   var tportfolio = teamInfo('Portfolio');
   var tliz = teamInfo('Liz');
-  var tdean = teamInfo('Dean');
+  var tjosh = teamInfo('Josh');
   var tsales = teamInfo('Sales');
   
-  var teamCA = [tjeff, tben, trobb, tdean, tliz, tportfolio, tsales];
-  var teams = [jeff, ben, robb, dean, liz, portfolio, sales];
+  var teamCA = [tmerrie, tben, trobb, tjosh, tliz, tportfolio, tsales];
+  var teams = [merrie, ben, robb, josh, liz, portfolio, sales];
   
   for (var i = 1; i < range1.length; i++) {
     if (range1[i][2] != '') {
@@ -114,21 +114,21 @@ function reportInd(range1, range3) {
   var name = [];
   var found = false;
   var n = 0;
-  var jeff = [];var ben = [];var robb = [];var portfolio = [];
-  var liz = [];var dean = [];var final = [];
+  var merrie = [];var ben = [];var robb = [];var portfolio = [];
+  var liz = [];var josh = [];var final = [];
   var sales = []; 
   var type;
   
-  var tjeff = teamInfo('Jeff');
+  var tmerrie = teamInfo('Merrie');
   var tben = teamInfo('Ben');
   var trobb = teamInfo('Robb');
   var tportfolio = teamInfo('Portfolio');
   var tliz = teamInfo('Liz');
-  var tdean = teamInfo('Dean');
+  var tjosh = teamInfo('Josh');
   var tsales = teamInfo('Sales');
   
-  var teamCA = [tjeff, tben, trobb, tdean, tliz, tportfolio, tsales];
-  var teamFinal = [jeff, ben, robb, dean, liz, portfolio, sales];
+  var teamCA = [tmerrie, tben, trobb, tjosh, tliz, tportfolio, tsales];
+  var teamFinal = [merrie, ben, robb, josh, liz, portfolio, sales];
   
   var teams = teamInfo('Teams');
   for (var i = 0; i < teamCA.length; i++) {

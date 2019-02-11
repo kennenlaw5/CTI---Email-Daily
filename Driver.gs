@@ -44,7 +44,7 @@ function driver(input) {
         ['deanw@schomp.com','Dean','Wentland'],
         ['jeffe@schomp.com','Jeff','Edgell'],
         ['kennen.lawrence@a2zsync.com','Kennen','Lawrence'],
-        ['deanw@schomp.com','Mark','Osborne']];
+        ['marko@schomp.com','Mark','Osborne']];
       break;
     default:
       Logger.log(input + ' was invalid.');
@@ -53,29 +53,29 @@ function driver(input) {
 }
 function teamInfo(team) {
   switch (team) {
-    case 'Jeff':
-      return ['Omar Johnson', 'Ian Hudgens', 'Demitri Gavito', 'Michael Barrett'];
+    case 'Merrie':
+      return ['Chris Castro', 'Ian Hudgens', 'Demitri Gavito', 'Brian Neal', 'Jim Merrell', 'Robin Windhager', 'Dan Fink'];
       break;
     case 'Ben':
-      return ['Patrick Quinlan', 'Troy Roth', 'Damir Memisevic', 'James Pryor', 'Shahin Nia'];
+      return ['Patrick Quinlan', 'James Pryor', 'Shahin Nia', 'Marlowe Jones', 'Sam Nejad', 'Jeanne Tal', 'Adam Ellison'];
       break;
     case 'Robb':
-      return ['Chris Castro', 'Conner Graves', 'Mo Kayeni', 'Jason Hovde', 'Robert Bird'];
+      return ['Conner Graves', 'Mo Kayeni', 'Jason Hovde', 'Robert Bird', 'Jeff Hanson', 'Troy Roth', 'Stephanie Reese'];
       break;
-    case 'Dean':
-      return ['Sam Nejad', 'Connor Hanlon', 'Ace Taylor-Brown', 'Andrew Sapoznik', 'Jeanne Tal'];
+    case 'Josh':
+      return ['Ace Taylor-Brown', 'Andrew Sapoznik', 'Omar Johnson', 'Michael Barrett', 'Alexander Duquette', 'Adam Maxwell', 'Joey Bernier'];
       break;
     case 'Liz':
-      return ['Jeff Hanson', 'Chuck Northrup', 'Christopher Leirer', 'Marlowe Jones', 'Alexander Duquette', 'Patrick Stenson', 'Toby Hesketh-Tutton', 'Tina Watson'];
+      return ['Chuck Northrup', 'Christopher Leirer', 'Patrick Stenson', 'Toby Hesketh-Tutton', 'Tina Watson', 'Damir Memisevic', 'Michael Meis'];
       break;
     case 'Portfolio':
-      return ['Timothy Green', 'Joshua Ackerman', 'Fika Host', 'Brian Neal'];
+      return ['Timothy Green', 'Joshua Ackerman', 'Connor Hanlon'];
       break;
     case 'Sales':
-      return ['David Toben', 'Jeff Capps', 'Alexa Gerner', 'Thomas Krohn'];
+      return ['David Toben', 'Alexa Gerner', 'Thomas Krohn'];
       break;
     case 'Teams':
-      return ['Team Jeff', 'Team Ben', 'Team Robb', 'Team Dean', 'Team Liz', 'Team Portfolio', 'Sales Support'];
+      return ['Team Merrie', 'Team Ben', 'Team Robb', 'Team Josh', 'Team Liz', 'Team Portfolio', 'Sales Support'];
       break;
     default:
       Logger.log(team+ ' team was invalid');

@@ -3,15 +3,15 @@ function sendNotification() {
   //Version 1.3.0 (Added MTD function and added new, non-counting team)
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var ui = SpreadsheetApp.getUi();
-  ss.getSheetByName("Shhhhh....").hideSheet();
+  ss.getSheetByName('Shhhhh....').hideSheet();
   report();
-  var mode = driver("mode"); //Mode 1 will send email to all; if number is set to 2, will put up maintanance alert.
+  var mode = driver('mode'); //Mode 1 will send email to all; if number is set to 2, will put up maintanance alert.
   if (mode == 2) { //Create maintanance prompt and allow for overide
     var overide = ui.prompt('Under Maintanance!', 'Down for maintanance! Will be up again shortly! :D', ui.ButtonSet.OK);
     if (overide.getResponseText().toLowerCase() != 'override') { return; }
   }
-  var input = ui.alert("Are you sure you'd like to send the notification?",ui.ButtonSet.YES_NO);
-  if (input != ui.Button.YES) { ss.toast('Action was cancelled! Email was not sent!','Cancelled'); return; }
+  var input = ui.alert("Are you sure you'd like to send the notification?", ui.ButtonSet.YES_NO);
+  if (input != ui.Button.YES) { ss.toast('Action was cancelled! Email was not sent!', 'Cancelled'); return; }
   //Start of main script
   if (!checkValidation()) { ss.toast('Action was cancelled! Email was not sent!','Cancelled'); return; }
   
@@ -44,7 +44,7 @@ function sendNotification() {
   }
   for (var j = 0; j < teams.length; j++) {
     for (var i = 0; i < range.length; i++) {
-      if (includeIndv[i][1] && range[i][driver('mainColumns')] == teams[j] && (includeIndv[i][2] != driver("<31") || teams[j] == 'Sales Support')) {
+      if (includeIndv[i][1] && range[i][driver('mainColumns')] == teams[j] && includeIndv[i][2] != driver("<31")) {
         cti[j] += range[i][2];
         emails[j] += range[i][1];
         texts[j] += range[i][3];
@@ -157,7 +157,7 @@ function bodyGen(iCti,iEmails,iTexts,iRecv,asOf,day,iAppts,includeIndv,MTD) {
       //Logger.log(teams[i]+": "+(preTotal[0]+preTotal[1]+preTotal[2]));
       body += "<tr><th style='color: " + color + "; background-color: " + font + ";' colspan = '6'><b><u>" + teams[i] + ": ";
       
-      if (!isNaN(total) && teams[i] != 'Sales Support') { body += Math.round(total)+"% of Total Outbound Completed"; } //Should append % complete?
+      if (!isNaN(total)) { body += Math.round(total)+"% of Total Outbound Completed"; } //Should append % complete?
       
       body += "</u></b></th></tr><tr style='border: 2px solid black;'><td style='background-color: white; font-size: large;'><b>CA:</b></td>";
       

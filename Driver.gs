@@ -9,7 +9,7 @@ function driver(input) {
       return mainColumns;
       break;
     case 'numTeams':
-      var numTeams = 7;
+      var numTeams = 6;
       return numTeams;
       break;
     case 'As of':
@@ -63,7 +63,7 @@ function teamInfo(team) {
       return ['Conner Graves', 'Mo Kayeni', 'Jason Hovde', 'Robert Bird', 'Jeff Hanson', 'Troy Roth', 'Stephanie Reese'];
       break;
     case 'Josh':
-      return ['Ace Taylor-Brown', 'Andrew Sapoznik', 'Omar Johnson', 'Michael Barrett', 'Alexander Duquette', 'Adam Maxwell', 'Joey Bernier'];
+      return ['Ace Taylor-Brown', 'Andrew Sapoznik', 'Michael Barrett', 'Alexander Duquette', 'Adam Maxwell', 'Joey Bernier'];
       break;
     case 'Liz':
       return ['Chuck Northrup', 'Christopher Leirer', 'Patrick Stenson', 'Toby Hesketh-Tutton', 'Tina Watson', 'Damir Memisevic', 'Michael Meis'];
@@ -71,11 +71,8 @@ function teamInfo(team) {
     case 'Portfolio':
       return ['Timothy Green', 'Joshua Ackerman', 'Connor Hanlon'];
       break;
-    case 'Sales':
-      return ['David Toben', 'Alexa Gerner', 'Thomas Krohn'];
-      break;
     case 'Teams':
-      return ['Team Merrie', 'Team Ben', 'Team Robb', 'Team Josh', 'Team Liz', 'Team Portfolio', 'Sales Support'];
+      return ['Team Merrie', 'Team Ben', 'Team Robb', 'Team Josh', 'Team Liz', 'Team Portfolio'];
       break;
     default:
       Logger.log(team+ ' team was invalid');

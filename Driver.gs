@@ -54,13 +54,13 @@ function driver(input) {
 function teamInfo(team) {
   switch (team) {
     case 'Merrie':
-      return ['Chris Castro', 'Ian Hudgens', 'Demitri Gavito', 'Jim Merrell', 'Robin Windhager', 'Dan Fink'];
+      return ['Chris Castro', 'Ian Hudgens', 'Demitri Gavito', 'Jim Merrell', 'Daniel Fink'];
       break;
     case 'Ben':
       return ['Patrick Quinlan', 'James Pryor', 'Shahin Nia', 'Marlowe Jones', 'Sam Nejad', 'Jeanne Tal', 'Adam Ellison'];
       break;
     case 'Robb':
-      return ['Conner Graves', 'Mo Kayeni', 'Jason Hovde', 'Jeff Hanson', 'Troy Roth', 'Stephanie Reese'];
+      return ['Conner Graves', 'Mo Kayeni', 'Jeff Hanson', 'Troy Roth', 'Stephanie Reese', 'Andrien Franklin'];
       break;
     case 'Josh':
       return ['Ace Taylor-Brown', 'Andrew Sapoznik', 'Michael Barrett', 'Alexander Duquette', 'Adam Maxwell'];

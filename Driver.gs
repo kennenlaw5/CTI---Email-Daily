@@ -54,22 +54,22 @@ function driver(input) {
 function teamInfo(team) {
   switch (team) {
     case 'Merrie':
-      return ['Chris Castro', 'Ian Hudgens', 'Demitri Gavito', 'Jim Merrell', 'Daniel Fink'];
+      return ['Ian Hudgens', 'Tony Moomau', 'Daniel Fink', 'Sean Patterson', 'Michael Boudias', 'Eric Wass'];
       break;
     case 'Ben':
-      return ['Patrick Quinlan', 'James Pryor', 'Shahin Nia', 'Marlowe Jones', 'Sam Nejad', 'Jeanne Tal', 'Adam Ellison'];
+      return ['Patrick Quinlan', 'James Pryor', 'Shahin Nia', 'Sam Nejad', 'Adam Ellison', 'Michael Zamora'];
       break;
     case 'Robb':
-      return ['Conner Graves', 'Mo Kayeni', 'Jeff Hanson', 'Troy Roth', 'Stephanie Reese', 'Andrien Franklin'];
+      return ['Jim Merrell', 'Conner Graves', 'Mo Kayeni', 'Jeff Hanson', 'Troy Roth', 'Andrien Franklin', 'Jeff Hayzlett'];
       break;
     case 'Josh':
       return ['Ace Taylor-Brown', 'Andrew Sapoznik', 'Michael Barrett', 'Alexander Duquette', 'Adam Maxwell'];
       break;
     case 'Liz':
-      return ['Chuck Northrup', 'Christopher Leirer', 'Patrick Stenson', 'Toby Hesketh-Tutton', 'Tina Watson', 'Damir Memisevic', 'Michael Meis'];
+      return ['Patrick Stenson', 'Toby Hesketh-Tutton', 'Tina Watson', 'Damir Memisevic', 'Michael Meis'];
       break;
     case 'Portfolio':
-      return ['Timothy Green', 'Joshua Ackerman', 'Connor Hanlon', 'Brian Neal'];
+      return ['Timothy Green', 'Joshua Ackerman', 'Connor Hanlon', 'Brian Neal', 'Christopher Leirer'];
       break;
     case 'Teams':
       return ['Team Merrie', 'Team Ben', 'Team Robb', 'Team Josh', 'Team Liz', 'Team Portfolio'];

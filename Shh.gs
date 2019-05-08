@@ -1,10 +1,10 @@
 function onEdit(e) {
   //Created By Kennen Lawrence
-  var user=e.range;
-  var ss=SpreadsheetApp.getActiveSpreadsheet();
-  var sheetName=user.getSheet().getName();
+  var user      = e.range;
+  var ss        = SpreadsheetApp.getActiveSpreadsheet();
+  var sheetName = user.getSheet().getName();
   
-  if (sheetName == "Shhhhh....") {
+  if (sheetName == 'Shhhhh....') {
     play(e);
   }
   
@@ -101,44 +101,44 @@ function play(e) {
     return;
 }
 function aiWon(){
-  var ui=SpreadsheetApp.getUi();
+  var ui = SpreadsheetApp.getUi();
   ui.alert("You Lost!","The computer has won this match! The board will reset upon closing this notification!",ui.ButtonSet.OK);
-  var ss=SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
   boardClear();
-  ss.getSheetByName("Shhhhh....").getRange(5,2,3,3).setValues([['','',''],['','',''],['','','']]);
+  ss.getSheetByName("Shhhhh....").getRange(5,2,3,3).setValue('');
   ss.getSheetByName("Shhhhh....").getRange(5,2,3,3).getValues();
-  ss.getSheetByName("Shhhhh....").getRange(5,2,3,3).setValue("");
+
 }
 function userWon(){
-  var ui=SpreadsheetApp.getUi();
+  var ui = SpreadsheetApp.getUi();
   ui.alert("You Won!","You have won this match against the computer! The board will reset upon closing this notification!",ui.ButtonSet.OK);
-  var ss=SpreadsheetApp.getActiveSpreadsheet();
-  ss.getSheetByName("Shhhhh....").getRange(5,2,3,3).setValues([['','',''],['','',''],['','','']]);
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  ss.getSheetByName("Shhhhh....").getRange(5,2,3,3).setValue('');
   ss.getSheetByName("Shhhhh....").getRange(5,2,3,3).getValues();
-  ss.getSheetByName("Shhhhh....").getRange(5,2,3,3).setValue("");
+
   boardClear();
 }
 function tieGame(){
-  var ui=SpreadsheetApp.getUi();
+  var ui = SpreadsheetApp.getUi();
   ui.alert("TIE!","You have tied against the computer! The board will reset upon closing this notification!",ui.ButtonSet.OK);
-  var ss=SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
   ss.getSheetByName("Shhhhh....").getRange(5,2,3,3).getValues();
-  ss.getSheetByName("Shhhhh....").getRange(5,2,3,3).setValues([['','',''],['','',''],['','','']]);
-  ss.getSheetByName("Shhhhh....").getRange(5,2,3,3).setValue("");
+  ss.getSheetByName("Shhhhh....").getRange(5,2,3,3).setValue('');
+
   boardClear();
 }
 function PvP(winner){
-  var ui=SpreadsheetApp.getUi();
+  var ui = SpreadsheetApp.getUi();
   ui.alert("Player "+winner+" won!","Player "+winner+"! You have won this match! The board will reset upon closing this notification!",ui.ButtonSet.OK);
-  var ss=SpreadsheetApp.getActiveSpreadsheet();
-  ss.getSheetByName("Shhhhh....").getRange(5,2,3,3).setValues([['','',''],['','',''],['','','']]);
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  ss.getSheetByName("Shhhhh....").getRange(5,2,3,3).setValue('');
   ss.getSheetByName("Shhhhh....").getRange(5,2,3,3).getValues();
-  ss.getSheetByName("Shhhhh....").getRange(5,2,3,3).setValue("");
+
   boardClear();
 }
 function boardClear(){
-  var ss=SpreadsheetApp.getActiveSpreadsheet();
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
   ss.getSheetByName("Shhhhh....").getRange(5,2,3,3).getValues();
-  ss.getSheetByName("Shhhhh....").getRange(5,2,3,3).setValues([['','',''],['','',''],['','','']]);
-  ss.getSheetByName("Shhhhh....").getRange(5,2,3,3).setValue("");
+  ss.getSheetByName("Shhhhh....").getRange(5,2,3,3).setValue('');
+
 }

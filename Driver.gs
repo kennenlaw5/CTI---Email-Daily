@@ -1,80 +1,62 @@
 function driver(input) {
   switch (input) {
-    case 'mode':
-      var mode = 1; //Mode 1 will send email to all; if number is set to 2, will put up maintanance alert.
-      return mode;
-      break;
-    case 'mainColumns':
-      var mainColumns = 6;
-      return mainColumns;
-      break;
-    case 'numTeams':
-      var numTeams = 6;
-      return numTeams;
-      break;
-    case 'As of':
-      var dateColumn = 9;
-      return dateColumn;
-      break;
-    case 'Include':
-      var include_column = 7; //Column on the 'Main' sheet that finds out if a team is included
-      return include_column;
-      break;
-    case 'tableWidth':
-      var width = 800; //Width of the table generated and sent
-      return width;
-      break;
-    case '<31':
-      return '<31 Days';
-      break;
-    case '31-60':
-      return '31-60 Days';
-      break;
-    case '61+':
-      return '61+ Days';
-      break;
-    case '31-60 Req':
-      return 10;
-      break;
-    case '61+ Req':
-      return 15;
-      break;
+    case 'mode' : return 1; // 1 will send email to all; if number is set to 2, will put up maintenance alert.
+
+    case 'mainColumns' : return 6;
+
+    case 'numTeams' : return 6;
+
+    case 'As of' : return 9;
+
+    case 'Include' : return 7; // Column on the 'Main' sheet that finds out if a team is included
+
+    case '<31' : return '<31 Days';
+
+    case '31-60' : return '31-60 Days';
+
+    case '61+' : return '61+ Days';
+
+    case '31-60 Req' : return 20;
+
+    case '61+ Req' : return 30;
+
     case 'emails':
       return [
-        ['deanw@schomp.com','Dean','Wentland'],
-        ['jeffe@schomp.com','Jeff','Edgell'],
-        ['kennen.lawrence@a2zsync.com','Kennen','Lawrence'],
-        ['marko@schomp.com','Mark','Osborne']];
-      break;
+        ['deanw@schomp.com', 'Dean', 'Wentland'],
+        ['jeffe@schomp.com', 'Jeff', 'Edgell'],
+        ['kennen.lawrence@a2zsync.com', 'Kennen', 'Lawrence'],
+        ['marko@schomp.com', 'Mark', 'Osborne']
+      ];
+
     default:
-      Logger.log(input + ' was invalid.');
-      break;
+      throw (input + ' is an invalid entry for driver()');
   }
 }
+
 function teamInfo(team) {
   switch (team) {
     case 'Merrie':
-      return ['Ian Hudgens', 'Tony Moomau', 'Daniel Fink', 'Sean Patterson', 'Michael Boudias', 'Eric Wass'];
-      break;
+      return ['Ian Hudgens', 'Tony Moomau', 'Daniel Fink', 'Austin Hornick', 'Nathan Stock'];
+
     case 'Ben':
-      return ['Patrick Quinlan', 'James Pryor', 'Shahin Nia', 'Sam Nejad', 'Adam Ellison', 'Michael Zamora'];
-      break;
-    case 'Robb':
-      return ['Jim Merrell', 'Conner Graves', 'Mo Kayeni', 'Jeff Hanson', 'Troy Roth', 'Andrien Franklin', 'Jeff Hayzlett'];
-      break;
-    case 'Josh':
-      return ['Ace Taylor-Brown', 'Andrew Sapoznik', 'Michael Barrett', 'Alexander Duquette', 'Adam Maxwell'];
-      break;
+      return ['Patrick Quinlan', 'James Pryor', 'Shahin Nia', 'Sam Nejad', 'Adam Ellison', 'Bob Sumrall'];
+
     case 'Liz':
+      return ['Jim Merrell', 'Conner Graves', 'Jeff Hanson', 'Troy Roth', 'Andrien Franklin', 'Robb Ashby'];
+
+    case 'Josh':
+      return ['Andrew Sapoznik', 'Michael Barrett', 'Alexander Duquette', 'Adam Maxwell', 'Annie Bennett', 'Derrik Blackmore'];
+
+    case 'Ace':
       return ['Patrick Stenson', 'Toby Hesketh-Tutton', 'Tina Watson', 'Damir Memisevic', 'Michael Meis'];
-      break;
+
     case 'Portfolio':
-      return ['Timothy Green', 'Joshua Ackerman', 'Connor Hanlon', 'Brian Neal', 'Christopher Leirer'];
-      break;
+      return ['Timothy Green', 'Joshua Ackerman', 'Connor Hanlon', 'Brian Neal', 'Christopher Leirer', 'Jeff Hayzlett'];
+
     case 'Teams':
-      return ['Team Merrie', 'Team Ben', 'Team Robb', 'Team Josh', 'Team Liz', 'Team Portfolio'];
-      break;
+      return ['Team Merrie', 'Team Ben', 'Team Liz', 'Team Josh', 'Team Ace', 'Team Portfolio'];
+
     default:
-      Logger.log(team+ ' team was invalid');
+      throw (team + ' is an invalid entry for teamInfo()');
   }
 }

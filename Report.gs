@@ -35,20 +35,20 @@ function report() {
   var found = false;
   var merrie = [0, 0, 0, 0, 0];
   var ben = [0, 0, 0, 0, 0];
-  var robb = [0, 0, 0, 0, 0];
+  var liz = [0, 0, 0, 0, 0];
   var josh = [0, 0, 0, 0, 0];
   var portfolio = [0, 0, 0, 0, 0];
-  var liz = [0, 0, 0, 0, 0]; 
+  var ace = [0, 0, 0, 0, 0]; 
   
   var tmerrie = teamInfo('Merrie');
   var tben = teamInfo('Ben');
-  var trobb = teamInfo('Robb');
-  var tportfolio = teamInfo('Portfolio');
   var tliz = teamInfo('Liz');
+  var tportfolio = teamInfo('Portfolio');
+  var tAce = teamInfo('Ace');
   var tjosh = teamInfo('Josh');
   
-  var teamCA = [tmerrie, tben, trobb, tjosh, tliz, tportfolio];
-  var teams = [merrie, ben, robb, josh, liz, portfolio];
+  var teamCA = [tmerrie, tben, tliz, tjosh, tAce, tportfolio];
+  var teams = [merrie, ben, liz, josh, ace, portfolio];
   
   for (var i = 1; i < range1.length; i++) {
     if (range1[i][2] != '') {
@@ -112,19 +112,19 @@ function reportInd(range1, range3) {
   var name = [];
   var found = false;
   var n = 0;
-  var merrie = [];var ben = [];var robb = [];var portfolio = [];
-  var liz = [];var josh = [];var final = [];
+  var merrie = [];var ben = [];var liz = [];var portfolio = [];
+  var ace = [];var josh = [];var final = [];
   var type;
   
   var tmerrie = teamInfo('Merrie');
   var tben = teamInfo('Ben');
-  var trobb = teamInfo('Robb');
-  var tportfolio = teamInfo('Portfolio');
   var tliz = teamInfo('Liz');
+  var tportfolio = teamInfo('Portfolio');
+  var tAce = teamInfo('Ace');
   var tjosh = teamInfo('Josh');
   
-  var teamCA = [tmerrie, tben, trobb, tjosh, tliz, tportfolio];
-  var teamFinal = [merrie, ben, robb, josh, liz, portfolio];
+  var teamCA = [tmerrie, tben, tliz, tjosh, tAce, tportfolio];
+  var teamFinal = [merrie, ben, liz, josh, ace, portfolio];
   
   var teams = teamInfo('Teams');
   for (var i = 0; i < teamCA.length; i++) {

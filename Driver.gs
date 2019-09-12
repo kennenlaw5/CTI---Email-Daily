@@ -4,7 +4,7 @@ function driver(input) {
 
     case 'mainColumns' : return 6;
 
-    case 'numTeams' : return 6;
+    case 'numTeams' : return teamInfo('Teams').length;
 
     case 'As of' : return 9;
 
@@ -16,9 +16,9 @@ function driver(input) {
 
     case '61+' : return '61+ Days';
 
-    case '31-60 Req' : return 20;
+    case '31-60 Req' : return 10;
 
-    case '61+ Req' : return 30;
+    case '61+ Req' : return 15;
 
     case 'emails':
       return [
@@ -35,26 +35,23 @@ function driver(input) {
 
 function teamInfo(team) {
   switch (team) {
-    case 'Merrie':
-      return ['Ian Hudgens', 'Tony Moomau', 'Daniel Fink', 'Austin Hornick', 'Nathan Stock'];
+    case 'BW':
+      return ['Ian Hudgens', 'Austin Hornick', 'Nathan Stock', 'Jeremy King', 'Tatiana Bourey', 'Andrien Franklin'];
 
     case 'Ben':
-      return ['Patrick Quinlan', 'James Pryor', 'Shahin Nia', 'Sam Nejad', 'Adam Ellison', 'Bob Sumrall'];
+      return ['Shahin Nia', 'Sam Nejad', 'Bob Sumrall', 'Tony Moomau', 'Jeff Hanson', 'Eric Graves'];
 
-    case 'Liz':
-      return ['Jim Merrell', 'Conner Graves', 'Jeff Hanson', 'Troy Roth', 'Andrien Franklin', 'Robb Ashby'];
+    case 'Matt':
+      return ['Joshua Ackerman', 'Connor Hanlon', 'Brian Neal', 'Christopher Leirer', 'Timothy Green', 'Jeff Hayzlett', 'Alexander Duquette'];
 
     case 'Josh':
-      return ['Andrew Sapoznik', 'Michael Barrett', 'Alexander Duquette', 'Adam Maxwell', 'Annie Bennett', 'Derrik Blackmore'];
+      return ['Andrew Sapoznik', 'Michael Barrett', 'Adam Maxwell', 'Derrik Blackmore', 'Dan Day', 'Max Faulkner'];
 
     case 'Ace':
-      return ['Patrick Stenson', 'Toby Hesketh-Tutton', 'Tina Watson', 'Damir Memisevic', 'Michael Meis'];
-
-    case 'Portfolio':
-      return ['Timothy Green', 'Joshua Ackerman', 'Connor Hanlon', 'Brian Neal', 'Christopher Leirer', 'Jeff Hayzlett'];
+      return ['Patrick Stenson', 'Tina Watson', 'Michael Meis', 'Nick Majka', 'Jonathan Fuller'];
 
     case 'Teams':
-      return ['Team Merrie', 'Team Ben', 'Team Liz', 'Team Josh', 'Team Ace', 'Team Portfolio'];
+      return ['Team BW', 'Team Ben', 'Team Matt', 'Team Josh', 'Team Ace'];
 
     default:
       throw (team + ' is an invalid entry for teamInfo()');

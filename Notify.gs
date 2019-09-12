@@ -12,11 +12,14 @@ function sendNotification() {
             return;
         }
     }
+  
     var input = ui.alert("Are you sure you'd like to send the notification?", ui.ButtonSet.YES_NO);
+  
     if (input !== ui.Button.YES) {
         ss.toast('Action was cancelled! Email was not sent!', 'Cancelled');
         return;
     }
+  
     //Start of main script
     if (!checkValidation()) {
         ss.toast('Action was cancelled! Email was not sent!', 'Cancelled');
@@ -39,7 +42,8 @@ function sendNotification() {
         if (day.split(' ')[0] === 'Saturday' && !MTD && includeIndv[i][2] !== driver('<31')) {
             includeIndv[i][2] = driver('31-60');
         }
-        includeIndv[i][1] = (includeIndv[i][1].toString().toUpperCase() === 'TRUE');
+      
+        includeIndv[i][1] = includeIndv[i][1].toString().toUpperCase() === 'TRUE';
     }
 
     var subject = 'Outbound Activity ';
@@ -108,7 +112,7 @@ function sendNotification() {
         }
 
         if (mode !== 2) {
-            sheet.getRange(driver('numTeams') + 3, driver('As of') - 1, 1, 2).setValues([[timestamp, d]]);
+            sheet.getRange(driver('numTeams') + 4, driver('As of') - 1, 1, 2).setValues([[timestamp, d]]);
             if (asOf === 'End of Day' && !MTD) {
                 caQuota();
             }

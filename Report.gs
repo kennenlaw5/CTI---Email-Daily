@@ -3,7 +3,7 @@ function onOpen() {
   //Version 1.3
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var ui = SpreadsheetApp.getUi();
-  ui.createMenu('Utilities').addSubMenu(ui.createMenu('Help').addItem('By Phone','menuItem1').addItem('By Email','menuItem2')).addItem('Refresh Report','report').addToUi();
+  ui.createMenu('Utilities').addSubMenu(ui.createMenu('Help').addItem('By Phone', 'menuItem1').addItem('By Email', 'menuItem2')).addItem('Refresh Report', 'report').addItem('Send Report', 'sendNotification').addToUi();
   ss.getSheetByName('Shhhhh....').hideSheet();
 }
 function menuItem1() {
@@ -33,22 +33,20 @@ function report() {
   var range3 = source3.getRange(1, 1, numRows, numCol).getValues();
   var name;
   var found = false;
-  var merrie = [0, 0, 0, 0, 0];
+  var bw = [0, 0, 0, 0, 0];
   var ben = [0, 0, 0, 0, 0];
-  var liz = [0, 0, 0, 0, 0];
+  var matt = [0, 0, 0, 0, 0];
   var josh = [0, 0, 0, 0, 0];
-  var portfolio = [0, 0, 0, 0, 0];
   var ace = [0, 0, 0, 0, 0]; 
   
-  var tmerrie = teamInfo('Merrie');
+  var tbw = teamInfo('BW');
   var tben = teamInfo('Ben');
-  var tliz = teamInfo('Liz');
-  var tportfolio = teamInfo('Portfolio');
+  var tmatt = teamInfo('Matt');
   var tAce = teamInfo('Ace');
   var tjosh = teamInfo('Josh');
   
-  var teamCA = [tmerrie, tben, tliz, tjosh, tAce, tportfolio];
-  var teams = [merrie, ben, liz, josh, ace, portfolio];
+  var teamCA = [tbw, tben, tmatt, tjosh, tAce];
+  var teams = [bw, ben, matt, josh, ace];
   
   for (var i = 1; i < range1.length; i++) {
     if (range1[i][2] != '') {
@@ -68,11 +66,14 @@ function report() {
     }
     //if (found==false) { Logger.log(name + ' was not found!'); }
   }
+  
   for (i = 0; i < range3.length; i++) { if (range3[i][0] == 'RepName') { numRows = parseInt(i)+1; i = range3.length; /*Logger.log('REPNAME');*/ } }
+  
   for (i = numRows; i < range3.length; i++) {
     if (range3[i][0] != '') {
       name = range3[i][0];
       found = false;
+      
       for (j = 0; j < teamCA.length; j++) {
         for (k = 0; k < teamCA[j].length; k++) {
           if (teamCA[j][k] == name) {
@@ -88,19 +89,22 @@ function report() {
     }
     //if (found==false) {Logger.log(name); }
   }
+  
   reportInd(range1, range3);
+  
   var d = new Date();
   var timestamp = d.toLocaleTimeString();
   timestamp = timestamp.split(' MDT')[0];
   timestamp = timestamp.split(' MST')[0];
   timestamp = timestamp.split(':');
   timestamp = [timestamp[0], timestamp[1]].join(':') + timestamp[2].split(' ')[1];
-  target.getRange(2, 2, driver('numTeams'), driver('mainColumns')-1).setValues(teams);
+  target.getRange(2, 2, driver('numTeams'), driver('mainColumns') - 1).setValues(teams);
   target.getRange(driver('numTeams') + 5, 2, 1, 2).setValues([[timestamp, d]]);
   checkBoxValidation();
   ss.toast('Reports have been updated!', 'Success!');
 }
-function reportInd(range1, range3) {
+
+function reportInd (range1, range3) {
   //Created By Kennen Lawrence
   //Version 1.0
   var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -112,19 +116,18 @@ function reportInd(range1, range3) {
   var name = [];
   var found = false;
   var n = 0;
-  var merrie = [];var ben = [];var liz = [];var portfolio = [];
+  var bw = [];var ben = [];var matt = [];
   var ace = [];var josh = [];var final = [];
   var type;
   
-  var tmerrie = teamInfo('Merrie');
+  var tbw = teamInfo('BW');
   var tben = teamInfo('Ben');
-  var tliz = teamInfo('Liz');
-  var tportfolio = teamInfo('Portfolio');
+  var tmatt = teamInfo('Matt');
   var tAce = teamInfo('Ace');
   var tjosh = teamInfo('Josh');
   
-  var teamCA = [tmerrie, tben, tliz, tjosh, tAce, tportfolio];
-  var teamFinal = [merrie, ben, liz, josh, ace, portfolio];
+  var teamCA = [tbw, tben, tmatt, tjosh, tAce];
+  var teamFinal = [bw, ben, matt, josh, ace];
   
   var teams = teamInfo('Teams');
   for (var i = 0; i < teamCA.length; i++) {
@@ -137,32 +140,39 @@ function reportInd(range1, range3) {
     if (range1[i][2] != '') {
       type = range1[i][1];
       found = false;
+      
       if (n != 0) {
         for (j = 0; j < name.length; j++) {
           if (name[j][0] == range1[i][2]) {
-            if (type == 'Sent') { name[j][1] += 1; }
-            else if (type == 'Received') { name[j][4] += 1; }
-            else { Logger.log('NOT SENT OR RECEIVED'); }
+            if (type == 'Sent') name[j][1]++;
+            else if (type == 'Received') name[j][4]++;
+            else Logger.log('NOT SENT OR RECEIVED');
+            
             found = true; 
             j = name.length - 1;
           }
         }
       }
-      if (found == false) {
+      
+      if (!found) {
         //Logger.log(name);
-        if (type == 'Sent') { name[n] = [range1[i][2], 1, 0, 0, 0, 0, '']; }
-        else if (type == 'Received') { name[n] = [range1[i][2], 0, 0, 0, 1, 0, '']; }
-        else { Logger.log('NOT SENT OR RECEIVED'); }
+        if (type == 'Sent') name[n] = [range1[i][2], 1, 0, 0, 0, 0, ''];
+        else if (type == 'Received') name[n] = [range1[i][2], 0, 0, 0, 1, 0, ''];
+        else Logger.log('NOT SENT OR RECEIVED');
+        
         found = true;
         n++;
       }
     }
   }
+  
   for (i = 0; i < range3.length; i++) { if (range3[i][0] == 'RepName') { numRows = parseInt(i)+1; i = range3.length; } }
+  
   for (i = numRows; i < range3.length; i++) {
     if (range3[i][0] != '') {
       //name=range3[i][0];
       found = false;
+      
       for (j = 0; j < name.length; j++) {
         if (name[j][0] == range3[i][0]) {
           name[j][3] += range3[i][12];
@@ -172,30 +182,49 @@ function reportInd(range1, range3) {
           j = name.length;
         }
       }
-      if (found==false) { name[n] = [range3[i][0], 0, range3[i][8], range3[i][12], 0, range3[i][5], '']; found = true; n++; }
+      
+      if (!found) {
+        name[n] = [range3[i][0], 0, range3[i][8], range3[i][12], 0, range3[i][5], ''];
+        found = true;
+        n++;
+      }
     }
   }
+  
   n = 0;
   for (i = 0; i < name.length; i++) {
     for (j = 0; j < teamCA.length; j++) {
       for (var k = 0; k < teamCA[j].length; k++) {
-        if (teamCA[j][k] == name[i][0]) { final[n] = name[i]; final[n][driver('mainColumns')] = teams[j]; k = teamCA[j].length; j = teamCA.length-1; n++; }
+        if (teamCA[j][k] == name[i][0]) {
+          final[n] = name[i];
+          final[n][driver('mainColumns')] = teams[j];
+          k = teamCA[j].length;
+          j = teamCA.length - 1;
+          n++;
+        }
       }
     }
   }
+  
   for (i = 0;i < teamFinal.length; i++) {
     n = 0;
+    
     for (j = 0; j < final.length; j++) {
-      if (final[j][driver('mainColumns')] == teams[i]) { teamFinal[i][n] = final[j]; n++; }
+      if (final[j][driver('mainColumns')] == teams[i]) {
+        teamFinal[i][n] = final[j];
+        n++;
+      }
     }
   }
+  
   n = 0;
   for (i = 0; i < teamFinal.length; i++) {
     for (j = 0; j < teamFinal[i].length; j++) {
       final[n] = teamFinal[i][j]; n++;
     }
   }
-  target.getRange(2, 1, target.getLastRow()-1, driver('Include')).setValue('');
+  
+  target.getRange(2, 1, target.getLastRow() - 1, driver('Include')).setValue('');
   target.getRange(2, 1, final.length, driver('Include')).setValues(final);
 }
 

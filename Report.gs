@@ -41,12 +41,12 @@ function report() {
   
   var tbw = teamInfo('BW');
   var tben = teamInfo('Ben');
-  var tmatt = teamInfo('Matt');
   var tAce = teamInfo('Ace');
   var tjosh = teamInfo('Josh');
+  var tmatt = teamInfo('Matt');
   
-  var teamCA = [tbw, tben, tmatt, tjosh, tAce];
-  var teams = [bw, ben, matt, josh, ace];
+  var teamCA = [tbw, tben, tjosh, tAce, tmatt];
+  var teams = [bw, ben, josh, ace, matt];
   
   for (var i = 1; i < range1.length; i++) {
     if (range1[i][2] != '') {
@@ -122,12 +122,12 @@ function reportInd (range1, range3) {
   
   var tbw = teamInfo('BW');
   var tben = teamInfo('Ben');
-  var tmatt = teamInfo('Matt');
   var tAce = teamInfo('Ace');
   var tjosh = teamInfo('Josh');
+  var tmatt = teamInfo('Matt');
   
-  var teamCA = [tbw, tben, tmatt, tjosh, tAce];
-  var teamFinal = [bw, ben, matt, josh, ace];
+  var teamCA = [tbw, tben, tjosh, tAce, tmatt];
+  var teamFinal = [bw, ben, josh, ace, matt];
   
   var teams = teamInfo('Teams');
   for (var i = 0; i < teamCA.length; i++) {

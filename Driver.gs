@@ -41,17 +41,17 @@ function teamInfo(team) {
     case 'Ben':
       return ['Shahin Nia', 'Sam Nejad', 'Bob Sumrall', 'Tony Moomau', 'Jeff Hanson', 'Eric Graves'];
 
-    case 'Matt':
-      return ['Joshua Ackerman', 'Connor Hanlon', 'Brian Neal', 'Christopher Leirer', 'Timothy Green', 'Jeff Hayzlett', 'Alexander Duquette'];
-
     case 'Josh':
       return ['Andrew Sapoznik', 'Michael Barrett', 'Adam Maxwell', 'Derrik Blackmore', 'Dan Day', 'Max Faulkner'];
-
+      
     case 'Ace':
       return ['Patrick Stenson', 'Tina Watson', 'Michael Meis', 'Nick Majka', 'Jonathan Fuller'];
-
+      
+    case 'Matt':
+      return ['Joshua Ackerman', 'Connor Hanlon', 'Brian Neal', 'Christopher Leirer', 'Timothy Green', 'Jeff Hayzlett', 'Alexander Duquette'];
+      
     case 'Teams':
-      return ['Team BW', 'Team Ben', 'Team Matt', 'Team Josh', 'Team Ace'];
+      return ['Team BW', 'Team Ben', 'Team Josh', 'Team Ace', 'Team Matt'];
 
     default:
       throw (team + ' is an invalid entry for teamInfo()');

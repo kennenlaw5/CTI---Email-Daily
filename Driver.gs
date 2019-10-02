@@ -42,7 +42,7 @@ function teamInfo(team) {
       return ['Shahin Nia', 'Sam Nejad', 'Bob Sumrall', 'Tony Moomau', 'Jeff Hanson', 'Eric Graves'];
 
     case 'Josh':
-      return ['Andrew Sapoznik', 'Michael Barrett', 'Adam Maxwell', 'Derrik Blackmore', 'Dan Day', 'Max Faulkner'];
+      return ['Andrew Sapoznik', 'Michael Barrett', 'Adam Maxwell', 'Derrik Blackmore', 'Daniel Day', 'Max Faulkner'];
       
     case 'Ace':
       return ['Patrick Stenson', 'Tina Watson', 'Michael Meis', 'Nick Majka', 'Jonathan Fuller'];

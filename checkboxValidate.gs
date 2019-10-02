@@ -47,3 +47,39 @@ function checkValidation() {
   
   return true;
 }
+
+function checkBoxValidation() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var ui = SpreadsheetApp.getUi();
+  var main = ss.getSheetByName('Main');
+  var indv = ss.getSheetByName('Individuals');
+  var rule = SpreadsheetApp.newDataValidation().requireCheckbox().build();
+  var validations = main.getRange(2, driver('Include'), driver('numTeams')).getDataValidations();
+  var teams = main.getRange(2, 1, driver('numTeams')).getValues();
+  var include, range;
+  for (var i = 0; i < validations.length; i++) {
+    if (validations[i][0] == null || validations[i][0].getCriteriaType() != 'CHECKBOX') {
+      include = ui.alert('Include ' + teams[i], teams[i] + ' did not have a checkbox validation. Should ' + teams[i] + ' be included right now?', ui.ButtonSet.YES_NO);
+      range = main.getRange(i + 2, driver('Include'));
+      range.setDataValidation(rule);
+      if (include == ui.Button.YES) { range.setValue(true); }
+    }
+  }
+  
+  teams = indv.getRange(2, 1, indv.getLastRow() - 1).getValues();
+  validations = indv.getRange(2, driver('Include') + 1, indv.getLastRow() - 1).getDataValidations();
+  
+  for (i = 0; i < validations.length; i++) {
+    if (validations[i][0] == null || validations[i][0].getCriteriaType() != 'CHECKBOX') {
+      include = ui.alert('Include ' + teams[i], teams[i] + ' did not have a checkbox validation. Should ' + teams[i] + ' be included right now?', ui.ButtonSet.YES_NO);
+      range = indv.getRange(i + 2, driver('Include') + 1);
+      range.setDataValidation(rule);
+      if (include == ui.Button.YES) { range.setValue(true); }
+    }
+  }
+}
+
+function shh() {
+  var ss=SpreadsheetApp.getActiveSpreadsheet();
+  ss.setActiveSheet(ss.getSheetByName('Shhhhh....'));
+}

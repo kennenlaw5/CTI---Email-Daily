@@ -1,14 +1,14 @@
 function onOpen() {
-  //Created By Kennen Lawrence
-  //Version 1.3
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   var ui = SpreadsheetApp.getUi();
   ui.createMenu('Utilities').addSubMenu(ui.createMenu('Help').addItem('By Phone', 'menuItem1').addItem('By Email', 'menuItem2')).addItem('Refresh Report', 'report').addItem('Send Report', 'sendNotification').addToUi();
   ss.getSheetByName('Shhhhh....').hideSheet();
 }
+
 function menuItem1() {
   SpreadsheetApp.getUi().alert('Call or text (720) 317-5427');
 }
+
 function menuItem2() {
   //Created By Kennen Larence
   var ui = SpreadsheetApp.getUi();
@@ -17,21 +17,47 @@ function menuItem2() {
     MailApp.sendEmail('kennen.lawrence@a2zsync.com', 'HELP CTI & Email Daily', input.getResponseText(), { name:getName() });
   }
 }
+
+function reportSafetyCheck() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheetNames = ['BDC', 'CarWars', 'Email'];
+  var sheets = {};
+  sheets[sheetNames[0]] = ss.getSheetByName('BDC Activity Report');
+  sheets[sheetNames[1]] = ss.getSheetByName('CarWars Report');
+  sheets[sheetNames[2]] = ss.getSheetByName('Email Report');
+  
+  for (var i in sheetNames) {
+    if (!sheets[sheetNames[i]]) throw 'Warning! Could not locate ' + sheetNames[i] + ' Report sheet!'
+  }
+  
+  return sheets;
+}
+
 function report() {
   //Created By Kennen Lawrence
-  //Version 1.1 Corrections made to CA names
+  //Version 1.2 Corrections made to CA names
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var source1 = ss.getSheetByName('Email Report');
-  var source3 = ss.getSheetByName('BDC Activity Report');
+  var ui = SpreadsheetApp.getUi();
   var target = ss.getSheetByName('Main');
   ss.getSheetByName('Shhhhh....').hideSheet();
-  var numRows = source1.getLastRow();
-  var numCol = source1.getLastColumn();
-  var range1 = source1.getRange(1, 1, numRows, numCol).getValues();
-  numRows = source3.getLastRow();
-  numCol = source3.getLastColumn();
-  var range3 = source3.getRange(1, 1, numRows, numCol).getValues();
+  var sheets = reportSafetyCheck();
+  var numRows = sheets.Email.getLastRow();
+  var numCol = sheets.Email.getLastColumn();
+  var emailRange = sheets.Email.getRange(1, 1, numRows, numCol).getValues();
+  numRows = sheets.BDC.getLastRow();
+  numCol = sheets.BDC.getLastColumn();
+  var bdcRange = sheets.BDC.getRange(1, 1, numRows, numCol).getValues();
+  numRows = sheets.CarWars.getLastRow();
+  numCol = sheets.CarWars.getLastColumn();
+  var carWarsRange = sheets.CarWars.getRange(1, 1, numRows, numCol).getValues();
   var name;
+  var cols = {
+    name: 0,
+    cti: 0,
+    texts: 0,
+    aptsSet: 0,
+    email: 0
+  };
   var found = false;
   var bw = [0, 0, 0, 0, 0];
   var ben = [0, 0, 0, 0, 0];
@@ -48,49 +74,73 @@ function report() {
   var teamCA = [tbw, tben, tjosh, tAce, tmatt];
   var teams = [bw, ben, josh, ace, matt];
   
-  for (var i = 1; i < range1.length; i++) {
-    if (range1[i][2] != '') {
-      name = range1[i][2];
-      found = false;
-      for (var j = 0; j < teamCA.length; j++) {
-        for (var k = 0; k < teamCA[j].length; k++) {
-          if (teamCA[j][k] == name) {
-            if (range1[i][1] == 'Sent') { teams[parseInt(j)][1] += 1; }
-            else if (range1[i][1]=='Received') { teams[parseInt(j)][3] += 1; }
-            k = teamCA[j].length - 1;
-            j = teamCA.length - 1;
-            found = true;
-          }
-        }
-      }
+  var ctiFromBdc = ui.alert('Use CarWars For CTI?',
+                            'Would you like to import the CTI values from the CarWars Report? Selecting "No" will use CTI from the BDC Activity Report like usual.',
+                            ui.ButtonSet.YES_NO);
+  
+  if (ctiFromBdc === ui.Button.CLOSE) return;
+  
+  ctiFromBdc = ctiFromBdc === ui.Button.NO;
+  
+  // Skim Email range
+  cols.name = getReportCol(emailRange, 'Assigned');
+  cols.email = getReportCol(emailRange, 'EmailType');
+  
+  for (var i = 1; i < emailRange.length; i++) {
+    if (emailRange[i][cols.name] === '') continue;
+    
+    name = emailRange[i][cols.name];
+    
+    for (var j = 0; j < teamCA.length; j++) {
+      if (teamCA[j].indexOf(name) === -1) continue;
+      
+      if (emailRange[i][cols.email] === 'Sent') teams[j][1] ++;
+      else if (emailRange[i][cols.email] === 'Received') teams[j][3] ++;
+      break;
     }
-    //if (found==false) { Logger.log(name + ' was not found!'); }
   }
   
-  for (i = 0; i < range3.length; i++) { if (range3[i][0] == 'RepName') { numRows = parseInt(i)+1; i = range3.length; /*Logger.log('REPNAME');*/ } }
+  // BDC skim
+  cols.cti = getReportCol(bdcRange, 'RepCallsCTI');
+  cols.name = getReportCol(bdcRange, 'RepName');
+  cols.texts = getReportCol(bdcRange, 'RepTextSent');
+  cols.aptsSet = getReportCol(bdcRange, 'RepApptCreated');
   
-  for (i = numRows; i < range3.length; i++) {
-    if (range3[i][0] != '') {
-      name = range3[i][0];
-      found = false;
+  for (i = getBdcStart(bdcRange); i < bdcRange.length; i++) {
+    if (bdcRange[i][cols.name] === '') continue;
+    
+    name = bdcRange[i][cols.name];
+    
+    for (j = 0; j < teamCA.length; j++) {
+      if (teamCA[j].indexOf(name) === -1) continue;
+      
+      if (ctiFromBdc) teams[j][0] += bdcRange[i][cols.cti]; // Dealersocket CTI
+      
+      teams[j][2] += bdcRange[i][cols.texts];
+      teams[j][4] += bdcRange[i][cols.aptsSet];
+      break;
+    }
+  }
+  
+  if (!ctiFromBdc) {
+    //Car Wars skim
+    cols.cti = getReportCol(carWarsRange, 'Unique Outbound');
+    cols.name = getReportCol(carWarsRange, 'Agent Name');
+    
+    for (i = 0; i < carWarsRange.length; i++) {
+      if (carWarsRange[i][cols.name] === '') continue;
+      
+      name = carWarsRange[i][cols.name];
       
       for (j = 0; j < teamCA.length; j++) {
-        for (k = 0; k < teamCA[j].length; k++) {
-          if (teamCA[j][k] == name) {
-            teams[parseInt(j)][2] += range3[i][12];
-            teams[parseInt(j)][0] += range3[i][8];
-            teams[parseInt(j)][4] += range3[i][5];
-            k = teamCA[j].length - 1;
-            j = teamCA.length - 1;
-            found = true;
-          }
-        }
+        if (teamCA[j].indexOf(name) === -1) continue;
+        
+        teams[j][0] += carWarsRange[i][cols.cti];
       }
     }
-    //if (found==false) {Logger.log(name); }
   }
   
-  reportInd(range1, range3);
+  reportInd(emailRange, bdcRange, carWarsRange, ctiFromBdc);
   
   var d = new Date();
   var timestamp = d.toLocaleTimeString();
@@ -104,22 +154,33 @@ function report() {
   ss.toast('Reports have been updated!', 'Success!');
 }
 
-function reportInd (range1, range3) {
+function reportInd (emailRange, bdcRange, carWarsRange, ctiFromBdc) {
   //Created By Kennen Lawrence
-  //Version 1.0
+  //Version 1.2
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   ss.getSheetByName('Shhhhh....').hideSheet();
-  var source1 = ss.getSheetByName('Email Report');
-  var source3 = ss.getSheetByName('BDC Activity Report');
   var target = ss.getSheetByName('Individuals');
   var numRows;
   var name = [];
   var found = false;
   var n = 0;
-  var bw = [];var ben = [];var matt = [];
-  var ace = [];var josh = [];var final = [];
+  var bw = [];
+  var ben = [];
+  var matt = [];
+  var josh = [];
+  var ace = [];
+  var final = [];
   var type;
   
+  var cols = {
+    name: 0,
+    cti: 0,
+    texts: 0,
+    aptsSet: 0,
+    email: 0
+  };
+  
+  var teams = teamInfo('Teams');
   var tbw = teamInfo('BW');
   var tben = teamInfo('Ben');
   var tAce = teamInfo('Ace');
@@ -129,63 +190,95 @@ function reportInd (range1, range3) {
   var teamCA = [tbw, tben, tjosh, tAce, tmatt];
   var teamFinal = [bw, ben, josh, ace, matt];
   
-  var teams = teamInfo('Teams');
   for (var i = 0; i < teamCA.length; i++) {
     for (var j = 0; j < teamCA[i].length; j++) {
       name[n] = [teamCA[i][j], 0, 0, 0, 0, 0, teams[i]];
       n++;
     }
   }
-  for (i = 1; i < range1.length; i++) {
-    if (range1[i][2] != '') {
-      type = range1[i][1];
-      found = false;
-      
-      if (n != 0) {
-        for (j = 0; j < name.length; j++) {
-          if (name[j][0] == range1[i][2]) {
-            if (type == 'Sent') name[j][1]++;
-            else if (type == 'Received') name[j][4]++;
-            else Logger.log('NOT SENT OR RECEIVED');
-            
-            found = true; 
-            j = name.length - 1;
-          }
+  
+  //Skim email range
+  cols.name = getReportCol(emailRange, 'Assigned');
+  cols.email = getReportCol(emailRange, 'EmailType');
+  
+  for (i = 1; i < emailRange.length; i++) {
+    if (emailRange[i][cols.name] === '') continue;
+    
+    type = emailRange[i][cols.email];
+    found = false;
+    
+    if (n !== 0) {
+      for (j = 0; j < name.length; j++) {
+        if (name[j][0] == emailRange[i][cols.name]) {
+          if (type === 'Sent') name[j][1]++;
+          else if (type === 'Received') name[j][4]++;
+          
+          found = true; 
+          break;
         }
       }
+    }
+    
+    if (!found) {
+      name[n] = [emailRange[i][2], 0, 0, 0, 0, 0, ''];
       
-      if (!found) {
-        //Logger.log(name);
-        if (type == 'Sent') name[n] = [range1[i][2], 1, 0, 0, 0, 0, ''];
-        else if (type == 'Received') name[n] = [range1[i][2], 0, 0, 0, 1, 0, ''];
-        else Logger.log('NOT SENT OR RECEIVED');
-        
-        found = true;
-        n++;
-      }
+      if (type == 'Sent') name[n][1]++;
+      else if (type == 'Received') name[n][4]++;
+      
+      n++;
     }
   }
   
-  for (i = 0; i < range3.length; i++) { if (range3[i][0] == 'RepName') { numRows = parseInt(i)+1; i = range3.length; } }
+  // Skim BDC range
+  cols.cti = getReportCol(bdcRange, 'RepCallsCTI');
+  cols.name = getReportCol(bdcRange, 'RepName');
+  cols.texts = getReportCol(bdcRange, 'RepTextSent');
+  cols.aptsSet = getReportCol(bdcRange, 'RepApptCreated');
   
-  for (i = numRows; i < range3.length; i++) {
-    if (range3[i][0] != '') {
-      //name=range3[i][0];
+  for (i = getBdcStart(bdcRange); i < bdcRange.length; i++) {
+    if (bdcRange[i][cols.name] === '') continue;
+    
+    found = false;
+    
+    for (j = 0; j < name.length; j++) {
+      if (name[j][0] == bdcRange[i][cols.name]) {
+        if (ctiFromBdc) name[j][2] += bdcRange[i][cols.cti]; // BDC Cti
+        
+        name[j][3] += bdcRange[i][cols.texts];
+        name[j][5] += bdcRange[i][cols.aptsSet];
+        found = true;
+        break;
+      }
+    }
+    
+    if (!found) {
+      name[n] = [bdcRange[i][cols.name], 0, 0, bdcRange[i][cols.texts], 0, bdcRange[i][cols.aptsSet], ''];
+      
+      if (ctiFromBdc) name[n][2] = bdcRange[i][cols.cti];
+      n++;
+    }
+  }
+  
+  if (!ctiFromBdc) {
+    // Skim CarWars Range
+    cols.cti = getReportCol(carWarsRange, 'Unique Outbound');
+    cols.name = getReportCol(carWarsRange, 'Agent Name');
+    
+    for (i = 0; i < carWarsRange.length; i++) {
+      if (carWarsRange[i][cols.name] === '') continue;
+      
       found = false;
       
       for (j = 0; j < name.length; j++) {
-        if (name[j][0] == range3[i][0]) {
-          name[j][3] += range3[i][12];
-          name[j][2] += range3[i][8];
-          name[j][5] += range3[i][5];
+        if (name[j][0] == carWarsRange[i][cols.name]) {
+          name[j][2] += carWarsRange[i][cols.cti];
           found = true;
-          j = name.length;
+          break;
         }
       }
       
       if (!found) {
-        name[n] = [range3[i][0], 0, range3[i][8], range3[i][12], 0, range3[i][5], ''];
-        found = true;
+        name[n] = [carWarsRange[i][cols.name], 0, carWarsRange[i][cols.cti], 0, 0, 0, ''];
         n++;
       }
     }
@@ -194,19 +287,16 @@ function reportInd (range1, range3) {
   n = 0;
   for (i = 0; i < name.length; i++) {
     for (j = 0; j < teamCA.length; j++) {
-      for (var k = 0; k < teamCA[j].length; k++) {
-        if (teamCA[j][k] == name[i][0]) {
-          final[n] = name[i];
-          final[n][driver('mainColumns')] = teams[j];
-          k = teamCA[j].length;
-          j = teamCA.length - 1;
-          n++;
-        }
-      }
+      if (teamCA[j].indexOf(name[i][0]) === -1) continue;
+      
+      final[n] = name[i];
+      final[n][driver('mainColumns')] = teams[j];
+      n++;
+      break;
     }
   }
   
-  for (i = 0;i < teamFinal.length; i++) {
+  for (i = 0; i < teamFinal.length; i++) {
     n = 0;
     
     for (j = 0; j < final.length; j++) {
@@ -220,7 +310,8 @@ function reportInd (range1, range3) {
   n = 0;
   for (i = 0; i < teamFinal.length; i++) {
     for (j = 0; j < teamFinal[i].length; j++) {
-      final[n] = teamFinal[i][j]; n++;
+      final[n] = teamFinal[i][j]
+      n++;
     }
   }
   
@@ -228,38 +319,20 @@ function reportInd (range1, range3) {
   target.getRange(2, 1, final.length, driver('Include')).setValues(final);
 }
 
-function checkBoxValidation() {
-  var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var ui = SpreadsheetApp.getUi();
-  var main = ss.getSheetByName('Main');
-  var indv = ss.getSheetByName('Individuals');
-  var rule = SpreadsheetApp.newDataValidation().requireCheckbox().build();
-  var validations = main.getRange(2, driver('Include'), driver('numTeams')).getDataValidations();
-  var teams = main.getRange(2, 1, driver('numTeams')).getValues();
-  var include, range;
-  for (var i = 0; i < validations.length; i++) {
-    if (validations[i][0] == null || validations[i][0].getCriteriaType() != 'CHECKBOX') {
-      include = ui.alert('Include ' + teams[i], teams[i] + ' did not have a checkbox validation. Should ' + teams[i] + ' be included right now?', ui.ButtonSet.YES_NO);
-      range = main.getRange(i + 2, driver('Include'));
-      range.setDataValidation(rule);
-      if (include == ui.Button.YES) { range.setValue(true); }
-    }
-  }
-  
-  teams = indv.getRange(2, 1, indv.getLastRow() - 1).getValues();
-  validations = indv.getRange(2, driver('Include') + 1, indv.getLastRow() - 1).getDataValidations();
-  
-  for (i = 0; i < validations.length; i++) {
-    if (validations[i][0] == null || validations[i][0].getCriteriaType() != 'CHECKBOX') {
-      include = ui.alert('Include ' + teams[i], teams[i] + ' did not have a checkbox validation. Should ' + teams[i] + ' be included right now?', ui.ButtonSet.YES_NO);
-      range = indv.getRange(i + 2, driver('Include') + 1);
-      range.setDataValidation(rule);
-      if (include == ui.Button.YES) { range.setValue(true); }
+// Get start row for BDC range
+function getBdcStart(bdcRange) {
+  for (var i = 0; i < bdcRange.length; i++) {
+    if (bdcRange[i][0] === 'RepName') {
+      return i + 1;
     }
   }
 }
 
-function shh() {
-  var ss=SpreadsheetApp.getActiveSpreadsheet();
-  ss.setActiveSheet(ss.getSheetByName('Shhhhh....'));
+// Get Unique Outbound col for CarWars report
+function getReportCol(range, colName) {
+  for (var i = 0; i < range.length; i++) {
+    if (range[i].indexOf(colName) === -1) continue;
+    
+    return range[i].indexOf(colName);
+  }
 }

@@ -1,14 +1,3 @@
-function onEdit(e) {
-  //Created By Kennen Lawrence
-  var user      = e.range;
-  var ss        = SpreadsheetApp.getActiveSpreadsheet();
-  var sheetName = user.getSheet().getName();
-  
-  if (sheetName == 'Shhhhh....') {
-    play(e);
-  }
-  
-}
 function play(e) {
   var range=ss.getSheetByName(sheetName).getRange(5,2,3,3);
     if(e.value=="Computer"){boardClear();return}

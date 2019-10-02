@@ -19,6 +19,10 @@ function driver(input) {
     case '31-60 Req' : return 10;
 
     case '61+ Req' : return 15;
+      
+    case 'mainSheetName' : return 'Main';
+      
+    case 'indvSheetName' : return 'Individuals';
 
     case 'emails':
       return [

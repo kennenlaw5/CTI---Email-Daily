@@ -61,18 +61,20 @@ function report() {
   var found = false;
   var bw = [0, 0, 0, 0, 0];
   var ben = [0, 0, 0, 0, 0];
-  var matt = [0, 0, 0, 0, 0];
-  var josh = [0, 0, 0, 0, 0];
-  var ace = [0, 0, 0, 0, 0]; 
+  var loyalty = [0, 0, 0, 0, 0];
+  var jeff = [0, 0, 0, 0, 0];
+  var ace = [0, 0, 0, 0, 0];
+  var trueCar = [0, 0, 0, 0, 0];
   
   var tbw = teamInfo('BW');
   var tben = teamInfo('Ben');
   var tAce = teamInfo('Ace');
-  var tjosh = teamInfo('Josh');
-  var tmatt = teamInfo('Matt');
+  var tjeff = teamInfo('Jeff');
+  var tloyalty = teamInfo('Loyalty');
+  var ttrueCar = teamInfo('TrueCar');
   
-  var teamCA = [tbw, tben, tjosh, tAce, tmatt];
-  var teams = [bw, ben, josh, ace, matt];
+  var teamCA = [tbw, tben, tjeff, tAce, tloyalty, ttrueCar];
+  var teams = [bw, ben, jeff, ace, loyalty, trueCar];
   
   var ctiFromBdc = ui.alert('Use CarWars For CTI?',
                             'Would you like to import the CTI values from the CarWars Report? Selecting "No" will use CTI from the BDC Activity Report like usual.',
@@ -166,9 +168,10 @@ function reportInd (emailRange, bdcRange, carWarsRange, ctiFromBdc) {
   var n = 0;
   var bw = [];
   var ben = [];
-  var matt = [];
-  var josh = [];
+  var loyalty = [];
+  var jeff = [];
   var ace = [];
+  var trueCar = [];
   var final = [];
   var type;
   
@@ -184,11 +187,12 @@ function reportInd (emailRange, bdcRange, carWarsRange, ctiFromBdc) {
   var tbw = teamInfo('BW');
   var tben = teamInfo('Ben');
   var tAce = teamInfo('Ace');
-  var tjosh = teamInfo('Josh');
-  var tmatt = teamInfo('Matt');
+  var tjeff = teamInfo('Jeff');
+  var tloyalty = teamInfo('Loyalty');
+  var ttrueCar = teamInfo('TrueCar');
   
-  var teamCA = [tbw, tben, tjosh, tAce, tmatt];
-  var teamFinal = [bw, ben, josh, ace, matt];
+  var teamCA = [tbw, tben, tjeff, tAce, tloyalty, ttrueCar];
+  var teamFinal = [bw, ben, jeff, ace, loyalty, trueCar];
   
   for (var i = 0; i < teamCA.length; i++) {
     for (var j = 0; j < teamCA[i].length; j++) {

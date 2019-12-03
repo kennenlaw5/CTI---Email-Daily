@@ -26,7 +26,6 @@ function driver(input) {
 
     case 'emails':
       return [
-        ['deanw@schomp.com', 'Dean', 'Wentland'],
         ['jeffe@schomp.com', 'Jeff', 'Edgell'],
         ['kennen.lawrence@a2zsync.com', 'Kennen', 'Lawrence'],
         ['marko@schomp.com', 'Mark', 'Osborne']
@@ -40,22 +39,25 @@ function driver(input) {
 function teamInfo(team) {
   switch (team) {
     case 'BW':
-      return ['Ian Hudgens', 'Austin Hornick', 'Nathan Stock', 'Jeremy King', 'Tatiana Bourey', 'Andrien Franklin'];
+      return ['Ian Hudgens', 'Nathan Stock', 'Jeremy King', 'Tatiana Bourey', 'Andrien Franklin', 'Sean Kelsen', 'Daniel Clingman', 'Christian Harris'];
 
     case 'Ben':
-      return ['Shahin Nia', 'Sam Nejad', 'Bob Sumrall', 'Tony Moomau', 'Jeff Hanson', 'Eric Graves'];
+      return ['Shahin Nia', 'Sam Nejad', 'Bob Sumrall', 'Tony Moomau', 'Jeff Hanson', 'Eric Graves', 'Kamran Janamian', 'Carla Strombitski'];
 
-    case 'Josh':
-      return ['Andrew Sapoznik', 'Michael Barrett', 'Adam Maxwell', 'Derrik Blackmore', 'Daniel Day', 'Max Faulkner'];
+    case 'Jeff':
+      return ['Andrew Sapoznik', 'Michael Barrett', 'Derrik Blackmore', 'Calvin Lasater', 'Alexander Clark'];
       
     case 'Ace':
-      return ['Patrick Stenson', 'Tina Watson', 'Michael Meis', 'Nick Majka', 'Jonathan Fuller'];
+      return ['Tina Watson', 'Nick Majka', 'Jonathan Fuller', 'Ron Hannon', 'Jesus Samaniego', 'Brendan Clarke', 'Jacob Boyce'];
       
-    case 'Matt':
-      return ['Joshua Ackerman', 'Connor Hanlon', 'Brian Neal', 'Christopher Leirer', 'Timothy Green', 'Jeff Hayzlett', 'Alexander Duquette'];
+    case 'Loyalty':
+      return ['Joshua Ackerman', 'Connor Hanlon', 'Brian Neal', 'Christopher Leirer', 'Timothy Green', 'Alexander Duquette'];
+      
+    case 'TrueCar':
+      return ['Vicki Holmstedt'];
       
     case 'Teams':
-      return ['Team BW', 'Team Ben', 'Team Josh', 'Team Ace', 'Team Matt'];
+      return ['Team BW', 'Team Ben', 'Team Jeff', 'Team Ace', 'Team Loyalty', 'Team TrueCar'];
 
     default:
       throw (team + ' is an invalid entry for teamInfo()');

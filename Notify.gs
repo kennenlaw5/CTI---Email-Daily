@@ -48,9 +48,7 @@ function sendNotification() {
   
   var subject = 'Outbound Activity ';
   
-  if (MTD) {
-    subject += 'MTD ';
-  }
+  if (MTD) subject += 'MTD ';
   
   subject += '- ' + day;
   
@@ -436,12 +434,15 @@ function caQuota() {
   var sheet   = ss.getSheetByName('Individuals');
   var range   = sheet.getRange(2, 1, sheet.getLastRow() - 1);
   var values  = range.getValues();
-  var include = sheet.getRange(2, driver("Include") + 1, sheet.getLastRow() - 1).getValues();
-  var target  = ss.getSheetByName("Requirements");
+  var include = sheet.getRange(2, driver('Include') + 1, sheet.getLastRow() - 1).getValues();
+  var target  = ss.getSheetByName('Requirements');
   
-  ss.deleteSheet(target);
+  if (target) ss.deleteSheet(target);
+  
   ss.getSheetByName('Requirements Master').copyTo(ss).setName('Requirements');
   target = ss.getSheetByName('Requirements');
+  toggleReqFormulas(true, target);
+  SpreadsheetApp.flush();
   target.getRange(2, 1, values.length).setValues(values);
   
   var req = target.getRange(2, 2, target.getLastRow() - 1, 4).getDisplayValues();
@@ -467,10 +468,56 @@ function caQuota() {
   
   target.getRange(2, 2, target.getLastRow() - 1, 4).setValues(req);
   target.showSheet();
-  sheet.getRange(2, driver("Include") + 1, values.length).setValue(true);
+  sheet.getRange(2, driver('Include') + 1, values.length).setValue(true);
   ss.setActiveSheet(target);
   ss.moveActiveSheet(3);
-  ss.setActiveSheet(ss.getSheetByName('Main'));
+  sheet = ss.getSheetByName('Main');
+  ss.setActiveSheet(sheet);
+  sheet.getRange(2, driver('Include'), driver('numTeams')).setValue(true);
+}
+
+function toggleReqFormulas(activate, sheet) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  sheet = sheet || ss.getSheetByName('Requirements');
+  var range = sheet.getRange(2, 2, sheet.getMaxRows() - 1, 3);
+  var formulas = range.getFormulas();
+  var strings = range.getValues();
+  var hasAllFormulas = !formulas.filter(function (formulaRow) {
+    return formulaRow.filter(function (formula) {
+      return !formula;
+    }).length !== 0;
+  })[0];
+  var hasNoFormulas = !formulas.filter(function (formulaRow) {
+    return formulaRow.filter(function (formula) {
+      return formula;
+    }).length !== 0;
+  })[0];
+  
+  formulas = formulas.map(function (formulaRow, row) {
+    return formulaRow.map(function (formula, col) {
+      return !formula ? strings[row][col] : formula;
+    });
+  });
+  
+  if ((hasAllFormulas && activate) || (hasNoFormulas && activate === false)) return;
+  
+  if (activate || (!hasAllFormulas && activate !== false)) {
+    return range.setValues(
+      formulas.map(function (formulaRow) {
+        return formulaRow.map(function (formula) {
+          return (formula[0] !== '=' ? '=' : '') + formula;
+        });
+      })
+    );
+  }
+  
+  range.setValues(
+    formulas.map(function (formulaRow) {
+      return formulaRow.map(function (formula) {
+        return formula[0] === '=' ? formula.substr(1) : formula;
+      });
+    })
+  );
 }
 
 function getMTDvalue() {

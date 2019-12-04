@@ -8,9 +8,9 @@ function sendNotification() {
   var mode = driver('mode'); //Mode 1 will send email to all; if number is set to 2, will put up maintenance alert.
   
   if (mode === 2) { //Create maintenance prompt and allow for override
-    var overide = ui.prompt('Under Maintenance!', 'Down for maintenance! Will be up again shortly! :D', ui.ButtonSet.OK);
+    var override = ui.prompt('Under Maintenance!', 'Down for maintenance. Will be up again shortly.', ui.ButtonSet.OK);
     
-    if (overide.getResponseText().toLowerCase() !== 'override') return;
+    if (override.getResponseText().toLowerCase() !== 'override') return;
   }
   
   var input = ui.alert("Are you sure you'd like to send the notification?", ui.ButtonSet.YES_NO);
@@ -28,7 +28,8 @@ function sendNotification() {
   
   var sheet = ss.getSheetByName('Main');
   var sheet2 = ss.getSheetByName('Recipients');
-  var indvSheet = ss.getSheetByName('Individuals');
+  var indvSheet = ss.getSheetByName(driver('indvsSheet').sheetName);
+  var indvColumns = driver('indvsSheet').columns;
   var ranger = sheet2.getRange(1, mode, sheet2.getLastRow()).getDisplayValues();
   var range = indvSheet.getRange(2, 1, indvSheet.getLastRow() - 1, driver('mainColumns') + 1).getValues(); /* Gets values from "Main" sheet Ends on column before "Include" column */
   var info = sheet.getRange(1, driver('As of'), 6).getDisplayValues(); /* Gets 'Date', 'As Of', and MTD values */
@@ -39,6 +40,7 @@ function sendNotification() {
   MTD = (MTD.toString().toUpperCase() === 'TRUE');
   
   for (var i = 0; i < includeIndv.length; i++) {
+    // Override 61+ Days indv's to 31-60 to keep requirements the same
     if (day.split(' ')[0] === 'Saturday' && !MTD && includeIndv[i][2] !== driver('<31')) {
       includeIndv[i][2] = driver('31-60');
     }
@@ -53,9 +55,8 @@ function sendNotification() {
   subject += '- ' + day;
   
   var sender = getName();
-  var body;
+  var body, check;
   var recipients = '';
-  var check = false;
   var cti = [];
   var emails = [];
   var texts = [];
@@ -66,18 +67,27 @@ function sendNotification() {
   for (i = 0; i < teams.length; i++) {
     cti[i] = emails[i] = texts[i] = recv[i] = appts[i] = 0;
   }
-  
-  for (var j = 0; j < teams.length; j++) {
+
+  teams.forEach(function (team, teamIndex) {
+    var shouldCountNewEmpl = true;
+
     for (i = 0; i < range.length; i++) {
-      if (includeIndv[i][1] && range[i][driver('mainColumns')] === teams[j] && includeIndv[i][2] !== driver('<31')) {
-        cti[j] += range[i][2];
-        emails[j] += range[i][1];
-        texts[j] += range[i][3];
-        recv[j] += range[i][4];
-        appts[j] += range[i][5];
+      if (range[i][indvColumns.team - 1] === team && includeIndv[i][1] && includeIndv[i][2] !== driver('<31')) {
+        shouldCountNewEmpl = false;
+        break;
       }
     }
-  }
+
+    range.forEach(function (row, rowIndex) {
+      if (row[indvColumns.team - 1] === team && includeIndv[rowIndex][1] && (includeIndv[rowIndex][2] !== driver('<31') || shouldCountNewEmpl)) {
+        cti[teamIndex] += row[indvColumns.cti - 1];
+        emails[teamIndex] += row[indvColumns.emailsOut - 1];
+        texts[teamIndex] += row[indvColumns.texts - 1];
+        recv[teamIndex] += row[indvColumns.emailsIn - 1];
+        appts[teamIndex] += row[indvColumns.setAppts - 1];
+      }
+    });
+  });
   
   body = bodyGen(cti, emails, texts, recv, asOf, day, appts, includeIndv, MTD);
   check = body !== 'NONE';
@@ -155,7 +165,7 @@ function bodyGen(iCti, iEmails, iTexts, iRecv, asOf, day, iAppts, includeIndv, M
   var teams          = teamInfo('Teams');
   var teamIsIncluded = [];
   body += "<br/><table style='width: auto'>";
-  var cti, emails, font, texts, currentReq;
+  var font, currentReq;
   var color = 'black';
   var check = false;
   
@@ -207,11 +217,13 @@ function bodyGen(iCti, iEmails, iTexts, iRecv, asOf, day, iAppts, includeIndv, M
       } else {
         preTotal[0] = iCti[i] / teamCount[i];
       }
+      
       if (iEmails[i] / teamCount[i] > 1) {
         preTotal[1] = 1;
       } else {
         preTotal[1] = iEmails[i] / teamCount[i];
       }
+      
       if (iTexts[i] / teamCount[i] > 1) {
         preTotal[2] = 1;
       } else {
@@ -244,7 +256,7 @@ function bodyGen(iCti, iEmails, iTexts, iRecv, asOf, day, iAppts, includeIndv, M
       //Logger.log(teams[i]+": "+(preTotal[0]+preTotal[1]+preTotal[2]));
       body += "<tr><th style='color: " + color + "; background-color: " + font + ";' colspan = '6'><b><u>" + teams[i] + ": ";
       
-      if (!isNaN(total)) {
+      if (!isNaN(total) && teamCount[i]) {
         body += Math.round(total) + "% of Total Outbound Completed";
       } //Should append % complete?
       

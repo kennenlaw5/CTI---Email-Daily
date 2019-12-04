@@ -21,8 +21,22 @@ function driver(input) {
     case '61+ Req' : return 15;
       
     case 'mainSheetName' : return 'Main';
-      
-    case 'indvSheetName' : return 'Individuals';
+
+    case 'indvsSheet' : return {
+      sheetName: 'Individuals',
+      // Column #'s are not 0 indexed
+      columns: {
+        caName: 1,
+        emailsOut: 2,
+        cti: 3,
+        texts: 4,
+        emailsIn: 5,
+        setAppts: 6,
+        team: 7,
+        include: 8,
+        emplLength: 9
+      },
+    };
 
     case 'emails':
       return [

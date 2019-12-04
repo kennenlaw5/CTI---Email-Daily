@@ -57,7 +57,7 @@ function indvCheckBoxUpdate(e) {
 
 function indvCheckBoxChange(boxValue, team) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = ss.getSheetByName(driver('indvSheetName'));
+  var sheet = ss.getSheetByName(driver('indvsSheet').sheetName);
   var teamCol = driver('Include');
   
   var range = sheet.getRange(1, teamCol, sheet.getLastRow(), 2).getValues();
@@ -105,7 +105,7 @@ function mainCheckBoxUpdate(e) {
 
 function mainCheckBoxChange(boxValue, team) {
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sheet = ss.getSheetByName(driver('indvSheetName'));
+  var sheet = ss.getSheetByName(driver('indvsSheet').sheetName);
   var range = sheet.getRange(2, driver('Include'), sheet.getLastRow() - 1, 2);
   var values = range.getValues();
   

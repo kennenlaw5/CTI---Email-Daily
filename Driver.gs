@@ -16,9 +16,31 @@ function driver(input) {
 
     case '61+' : return '61+ Days';
 
-    case '31-60 Req' : return 10;
+    case '31-60 Req' : return {
+      regular: {
+        cti: 10,
+        email: 20,
+        text: 20,
+      },
+      saturday: {
+        cti: 10,
+        email: 20,
+        text: 20,
+      },
+    };
 
-    case '61+ Req' : return 15;
+    case '61+ Req' : return {
+      regular: {
+        cti: 10,
+        email: 20,
+        text: 20,
+      },
+      saturday: {
+        cti: 10,
+        email: 20,
+        text: 20,
+      },
+    };
       
     case 'mainSheetName' : return 'Main';
 
@@ -34,9 +56,11 @@ function driver(input) {
         setAppts: 6,
         team: 7,
         include: 8,
-        emplLength: 9
+        emplLength: 9,
       },
     };
+      
+    case 'indvSheetName' : return 'Individuals';
 
     case 'emails':
       return [

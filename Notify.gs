@@ -36,17 +36,15 @@ function sendNotification() {
   var includeIndv = indvSheet.getRange(2, driver('Include'), indvSheet.getLastRow() - 1, 3).getValues();
   var day = info[0][0];
   var asOf = info[2][0];
+  var isSaturday = day.split(' ')[0] === 'Saturday'
   var MTD = info[5][0];
   MTD = (MTD.toString().toUpperCase() === 'TRUE');
-  
-  for (var i = 0; i < includeIndv.length; i++) {
-    // Override 61+ Days indv's to 31-60 to keep requirements the same
-    if (day.split(' ')[0] === 'Saturday' && !MTD && includeIndv[i][2] !== driver('<31')) {
-      includeIndv[i][2] = driver('31-60');
-    }
-    
-    includeIndv[i][1] = includeIndv[i][1].toString().toUpperCase() === 'TRUE';
-  }
+
+  includeIndv.map(function (indv) {
+    indv[1] = indv[1].toString().toUpperCase() === 'TRUE';
+
+    return indv;
+  });
   
   var subject = 'Outbound Activity ';
   
@@ -89,7 +87,7 @@ function sendNotification() {
     });
   });
   
-  body = bodyGen(cti, emails, texts, recv, asOf, day, appts, includeIndv, MTD);
+  body = bodyGen(cti, emails, texts, recv, asOf, day, appts, includeIndv, MTD, isSaturday);
   check = body !== 'NONE';
   
   for (i = 0; i < ranger.length; i++) {
@@ -130,7 +128,7 @@ function sendNotification() {
   }
 }
 
-function bodyGen(iCti, iEmails, iTexts, iRecv, asOf, day, iAppts, includeIndv, MTD) {
+function bodyGen(iCti, iEmails, iTexts, iRecv, asOf, day, iAppts, includeIndv, MTD, isSaturday) {
   //Created By Kennen Lawrence
   //Version 3.1
   var ss = SpreadsheetApp.getActiveSpreadsheet();
@@ -168,6 +166,7 @@ function bodyGen(iCti, iEmails, iTexts, iRecv, asOf, day, iAppts, includeIndv, M
   var font, currentReq;
   var color = 'black';
   var check = false;
+  var requirements;
   
   if (MTD) {
     var MTD_date = getMTDvalue();
@@ -177,7 +176,11 @@ function bodyGen(iCti, iEmails, iTexts, iRecv, asOf, day, iAppts, includeIndv, M
   
   // Loop to initialize teamCount array based off of the number of teams
   for (var i = 0; i < teams.length; i++) {
-    teamCount[i] = 0;
+    teamCount[i] = {
+      cti: 0,
+      email: 0,
+      text: 0,
+    };
     teamIsIncluded[i] = false;
   }
   
@@ -190,17 +193,17 @@ function bodyGen(iCti, iEmails, iTexts, iRecv, asOf, day, iAppts, includeIndv, M
       if (includeIndv[i][0] === teams[j] && includeIndv[i][1]) {
         teamIsIncluded[j] = true;
         
-        if (includeIndv[i][2] === driver('61+')) {
+        if (includeIndv[i][2] !== driver('<31')) {
+          requirements = driver((includeIndv[i][2] === driver('61+') ? '61+' : '31-60') + ' Req');
+
           if (MTD) {
-            teamCount[j] += ((driver('61+ Req') * MTD_date[0]) + (driver('31-60 Req') * MTD_date[1]));
+            teamCount[j].cti += ((requirements.regular.cti * MTD_date[0]) + (requirements.saturday.cti * MTD_date[1]));
+            teamCount[j].email += ((requirements.regular.email * MTD_date[0]) + (requirements.saturday.email * MTD_date[1]));
+            teamCount[j].text += ((requirements.regular.text * MTD_date[0]) + (requirements.saturday.text * MTD_date[1]));
           } else {
-            teamCount[j] += driver('61+ Req');
-          }
-        } else if (includeIndv[i][2] === driver('31-60')) {
-          if (MTD) {
-            teamCount[j] += (driver('31-60 Req') * (MTD_date[0] + MTD_date[1]));
-          } else {
-            teamCount[j] += driver('31-60 Req');
+            teamCount[j].cti += requirements[isSaturday ? 'saturday' : 'regular'].cti;
+            teamCount[j].email += requirements[isSaturday ? 'saturday' : 'regular'].email;
+            teamCount[j].text += requirements[isSaturday ? 'saturday' : 'regular'].text;
           }
         }
       }
@@ -208,26 +211,26 @@ function bodyGen(iCti, iEmails, iTexts, iRecv, asOf, day, iAppts, includeIndv, M
   }
   
   for (i = 0; i < teams.length; i++) {
-    if (include[i][0] && (teamCount[i] > 0 || teamIsIncluded[i])) {
+    if (include[i][0] && (teamIsIncluded[i] || teamCount[i].cti > 0 || teamCount[i].email > 0 || teamCount[i].text > 0)) {
       //Calculate weighted average
       var preTotal = [];
       
-      if (iCti[i] / teamCount[i] > 1) {
+      if (iCti[i] / teamCount[i].cti > 1) {
         preTotal[0] = 1;
       } else {
-        preTotal[0] = iCti[i] / teamCount[i];
+        preTotal[0] = iCti[i] / teamCount[i].cti;
       }
       
-      if (iEmails[i] / teamCount[i] > 1) {
+      if (iEmails[i] / teamCount[i].email > 1) {
         preTotal[1] = 1;
       } else {
-        preTotal[1] = iEmails[i] / teamCount[i];
+        preTotal[1] = iEmails[i] / teamCount[i].email;
       }
       
-      if (iTexts[i] / teamCount[i] > 1) {
+      if (iTexts[i] / teamCount[i].text > 1) {
         preTotal[2] = 1;
       } else {
-        preTotal[2] = iTexts[i] / teamCount[i];
+        preTotal[2] = iTexts[i] / teamCount[i].text;
       }
       
       var total;
@@ -256,14 +259,14 @@ function bodyGen(iCti, iEmails, iTexts, iRecv, asOf, day, iAppts, includeIndv, M
       //Logger.log(teams[i]+": "+(preTotal[0]+preTotal[1]+preTotal[2]));
       body += "<tr><th style='color: " + color + "; background-color: " + font + ";' colspan = '6'><b><u>" + teams[i] + ": ";
       
-      if (!isNaN(total) && teamCount[i]) {
+      if (!isNaN(total) && (teamCount[i].cti > 0 || teamCount[i].email > 0 || teamCount[i].text > 0)) {
         body += Math.round(total) + "% of Total Outbound Completed";
       } //Should append % complete?
       
       body += "</u></b></th></tr><tr style='border: 2px solid black;'><td style='background-color: white; font-size: large;'><b>CA:</b></td>";
       
-      if (iCti[i] / teamCount[i] < 1) {
-        if (iCti[i] / teamCount[i] > 0.7) {
+      if (iCti[i] / teamCount[i].cti < 1) {
+        if (iCti[i] / teamCount[i].cti > 0.7) {
           font = "#EEEE16";
           color = "black";
         } else {
@@ -277,12 +280,10 @@ function bodyGen(iCti, iEmails, iTexts, iRecv, asOf, day, iAppts, includeIndv, M
       
       body += "<td style='background-color: " + font + "; font-size: large; color: " + color + ";'><b>CTI: " + iCti[i];
       
-      if (teamCount[i] !== 0) {
-        body += "/" + teamCount[i];
-      }
+      if (teamCount[i].cti > 0) body += '/' + teamCount[i].cti;
       
-      if (iEmails[i] / teamCount[i] < 1) {
-        if (iEmails[i] / teamCount[i] > 0.7) {
+      if (iEmails[i] / teamCount[i].email < 1) {
+        if (iEmails[i] / teamCount[i].email > 0.7) {
           font = "#EEEE16";
           color = "black";
         } else {
@@ -296,12 +297,10 @@ function bodyGen(iCti, iEmails, iTexts, iRecv, asOf, day, iAppts, includeIndv, M
       
       body += "</b></td><td style='background-color: " + font + "; font-size: large; color: " + color + ";'><b>Email Out: " + iEmails[i];
       
-      if (teamCount[i] !== 0) {
-        body += "/" + teamCount[i];
-      }
+      if (teamCount[i].email > 0) body += '/' + teamCount[i].email;
       
-      if (iTexts[i] / teamCount[i] < 1) {
-        if (iTexts[i] / teamCount[i] > 0.7) {
+      if (iTexts[i] / teamCount[i].text < 1) {
+        if (iTexts[i] / teamCount[i].text > 0.7) {
           font = "#EEEE16";
           color = "black";
         } else {
@@ -315,32 +314,38 @@ function bodyGen(iCti, iEmails, iTexts, iRecv, asOf, day, iAppts, includeIndv, M
       
       body += "</b></td><td style='background-color: " + font + "; font-size: large; color: " + color + ";'><b>Texts: " + iTexts[i];
       
-      if (teamCount[i] !== 0) body += "/" + teamCount[i];
+      if (teamCount[i].text > 0) body += '/' + teamCount[i].text;
       
       body += "</b></td><td style='background-color: white; font-size: large;'><b>Email In: " + iRecv[i] + "</b></td>";
       body += "<td style='background-color: white; font-size: large;'><b>Set Appt: " + iAppts[i] + "</b></td></tr>";
       
       for (j = 0; j < range.length; j++) {
         if (range[j][driver('mainColumns')] === teams[i] && includeIndv[j][1]) {
-          if (includeIndv[j][2] === driver('31-60')) {
+          currentReq = {
+            cti: 0,
+            email: 0,
+            text: 0,
+          };
+
+          if (includeIndv[j][2] !== driver('<31')) {
+            requirements = driver((includeIndv[j][2] === driver('61+') ? '61+' : '31-60') + ' Req');
+
             if (MTD) {
-              currentReq = (driver('31-60 Req') * (MTD_date[0] + MTD_date[1]));
+              currentReq.cti = ((requirements.regular.cti * MTD_date[0]) + (requirements.saturday.cti * MTD_date[1]));
+              currentReq.email = ((requirements.regular.email * MTD_date[0]) + (requirements.saturday.email * MTD_date[1]));
+              currentReq.text = ((requirements.regular.text * MTD_date[0]) + (requirements.saturday.text * MTD_date[1]));
             } else {
-              currentReq = driver('31-60 Req');
-            }
-          } else if (includeIndv[j][2] === driver('61+')) {
-            if (MTD) {
-              currentReq = (driver('61+ Req') * MTD_date[0]) + (driver('31-60 Req') * MTD_date[1]);
-            } else {
-              currentReq = driver('61+ Req');
+              currentReq.cti = requirements[isSaturday ? 'saturday' : 'regular'].cti;
+              currentReq.email = requirements[isSaturday ? 'saturday' : 'regular'].email;
+              currentReq.text = requirements[isSaturday ? 'saturday' : 'regular'].text;
             }
           }
           
-          if (includeIndv[j][2] !== driver("<31")) {
+          if (includeIndv[j][2] !== driver('<31')) {
             body += "<tr><td style='background-color: white;'>" + range[j][0] + "</td>";
             
-            if (range[j][2] < currentReq) {
-              if (range[j][2] > 0.7 * currentReq) {
+            if (range[j][2] < currentReq.cti) {
+              if (range[j][2] > 0.7 * currentReq.cti) {
                 font = "#EEEE16";
                 color = "black";
               } else {
@@ -352,10 +357,10 @@ function bodyGen(iCti, iEmails, iTexts, iRecv, asOf, day, iAppts, includeIndv, M
               color = "black";
             }
             
-            body += "<td style='background-color: " + font + "; color: " + color + ";'>" + range[j][2] + "/" + currentReq + "</td>";
+            body += "<td style='background-color: " + font + "; color: " + color + ";'>" + range[j][2] + '/' + currentReq.cti + '</td>';
             
-            if (range[j][1] < currentReq) {
-              if (range[j][1] > 0.7 * currentReq) {
+            if (range[j][1] < currentReq.email) {
+              if (range[j][1] > 0.7 * currentReq.email) {
                 font = "#EEEE16";
                 color = "black";
               } else {
@@ -367,10 +372,10 @@ function bodyGen(iCti, iEmails, iTexts, iRecv, asOf, day, iAppts, includeIndv, M
               color = "black";
             }
             
-            body += "<td style='background-color: " + font + "; color: " + color + ";'>" + range[j][1] + "/" + currentReq + "</td>";
+            body += "<td style='background-color: " + font + "; color: " + color + ";'>" + range[j][1] + '/' + currentReq.email + '</td>';
             
-            if (range[j][3] < currentReq) {
-              if (range[j][3] > 0.7 * currentReq) {
+            if (range[j][3] < currentReq.text) {
+              if (range[j][3] > 0.7 * currentReq.text) {
                 font = "#EEEE16";
                 color = "black";
               } else {
@@ -382,7 +387,7 @@ function bodyGen(iCti, iEmails, iTexts, iRecv, asOf, day, iAppts, includeIndv, M
               color = "black";
             }
             
-            body += "<td style='background-color: " + font + "; color: " + color + ";'>" + range[j][3] + "/" + currentReq + "</td>";
+            body += "<td style='background-color: " + font + "; color: " + color + ";'>" + range[j][3] + '/' + currentReq.text + '</td>';
             body += "<td style='background-color: white;'>" + range[j][4] + "</td>";
             body += "<td style='background-color: white;'>" + range[j][5] + "</td></tr>";
           } else {

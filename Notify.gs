@@ -104,24 +104,19 @@ function sendNotification() {
   
   if (check) {
     MailApp.sendEmail(recipients, subject, bodyPlain, {htmlBody: body, name: sender});
-    var d = new Date();
-    var timestamp = d.toLocaleTimeString();
-    timestamp = timestamp.split(' MDT')[0];
-    timestamp = timestamp.split(' MST')[0];
-    timestamp = timestamp.split(':');
+    var date = new Date();
+    var timestamp = date.toLocaleTimeString();
+    timestamp = timestamp.split(' MDT')[0].split(' MST')[0].split(':');
     timestamp = [timestamp[0], timestamp[1]].join(':') + timestamp[2].split(' ')[1];
     ss.toast('Email notification has been sent!', 'Success!');
     sheet.getRange(2, driver('Include'), driver('numTeams')).setValue(true);
     
-    if (MTD) {
-      sheet.getRange(6, driver('As of')).setValue(false);
-    }
+    if (MTD) sheet.getRange(6, driver('As of')).setValue(false);
     
     if (mode !== 2) {
-      sheet.getRange(driver('numTeams') + 4, driver('As of') - 1, 1, 2).setValues([[timestamp, d]]);
-      if (asOf === 'End of Day' && !MTD) {
-        caQuota();
-      }
+      ss.getRangeByName('lastSentTimeDate').setValues([[timestamp, date]]);
+      
+      if (asOf === 'End of Day' && !MTD) caQuota();
     }
   } else {
     ui.alert('At least ONE team MUST be included in order to send the email! Please include a team, then try again!', ui.ButtonSet.OK);

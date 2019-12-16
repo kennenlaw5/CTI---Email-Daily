@@ -18,14 +18,14 @@ function driver(input) {
 
     case '31-60 Req' : return {
       regular: {
-        cti: 10,
-        email: 20,
-        text: 20,
+        cti: 5,
+        email: 10,
+        text: 10,
       },
       saturday: {
         cti: 10,
-        email: 20,
-        text: 20,
+        email: 10,
+        text: 10,
       },
     };
 
@@ -37,8 +37,8 @@ function driver(input) {
       },
       saturday: {
         cti: 10,
-        email: 20,
-        text: 20,
+        email: 10,
+        text: 10,
       },
     };
       
@@ -77,16 +77,16 @@ function driver(input) {
 function teamInfo(team) {
   switch (team) {
     case 'BW':
-      return ['Ian Hudgens', 'Nathan Stock', 'Jeremy King', 'Tatiana Bourey', 'Andrien Franklin', 'Sean Kelsen', 'Daniel Clingman', 'Christian Harris'];
-
+      return ['Andrew Sapoznik', 'Michael Barrett', 'Calvin Lasater', 'Tatiana Bourey', 'Will Goure', 'Chad Spellman', 'Gary Taylor'];
+      
     case 'Ben':
       return ['Shahin Nia', 'Sam Nejad', 'Bob Sumrall', 'Tony Moomau', 'Jeff Hanson', 'Eric Graves', 'Kamran Janamian', 'Carla Strombitski'];
-
+      
     case 'Jeff':
-      return ['Andrew Sapoznik', 'Michael Barrett', 'Derrik Blackmore', 'Calvin Lasater', 'Alexander Clark'];
+      return ['Ian Hudgens', 'Nathan Stock', 'Andrien Franklin', 'Sean Kelsen', 'Daniel Clingman', 'Christian Harris', 'Alexander Clark', 'Derrik Blackmore', 'Chris Spellman'];
       
     case 'Ace':
-      return ['Tina Watson', 'Nick Majka', 'Jonathan Fuller', 'Ron Hannon', 'Jesus Samaniego', 'Brendan Clarke', 'Jacob Boyce'];
+      return ['Tina Watson', 'Nick Majka', 'Jonathan Fuller', 'Ron Hannon', 'Jesus Samaniego', 'Brendan Clarke', 'Jacob Boyce', 'Kevin Simpson'];
       
     case 'Loyalty':
       return ['Joshua Ackerman', 'Connor Hanlon', 'Brian Neal', 'Christopher Leirer', 'Timothy Green', 'Alexander Duquette'];

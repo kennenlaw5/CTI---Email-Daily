@@ -144,14 +144,14 @@ function report() {
   
   reportInd(emailRange, bdcRange, carWarsRange, ctiFromBdc);
   
-  var d = new Date();
-  var timestamp = d.toLocaleTimeString();
+  var date = new Date();
+  var timestamp = date.toLocaleTimeString();
   timestamp = timestamp.split(' MDT')[0];
   timestamp = timestamp.split(' MST')[0];
   timestamp = timestamp.split(':');
   timestamp = [timestamp[0], timestamp[1]].join(':') + timestamp[2].split(' ')[1];
   target.getRange(2, 2, driver('numTeams'), driver('mainColumns') - 1).setValues(teams);
-  target.getRange(driver('numTeams') + 5, 2, 1, 2).setValues([[timestamp, d]]);
+  ss.getRangeByName('lastRefreshTimeDate').setValues([[timestamp, date]]);
   checkBoxValidation();
   ss.toast('Reports have been updated!', 'Success!');
 }

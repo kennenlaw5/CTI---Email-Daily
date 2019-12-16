@@ -5,7 +5,7 @@ function onEdit(e) {
   
   if (sheetName === 'Individuals') {
     empLengthUpdateCheck(e);
-    indvCheckBoxUpdate(e)
+    indvCheckBoxUpdate(e);
   }
   
   if (sheetName === 'Main') mainCheckBoxUpdate(e);
@@ -79,7 +79,7 @@ function indvCheckBoxChange(boxValue, team) {
   
   var row = teamOrder.indexOf(team) + 1;
   
-  if (row === 0) throw team + ' could not be found on Main sheet';
+  if (row === 0) throw '"' + team + '" could not be found on Main sheet';
   
   if ((boxValue && matches.length === 1) || (!boxValue && matches.length === teamInfo.length)) {
     sheet.getRange(row, driver('Include')).setValue(boxValue);

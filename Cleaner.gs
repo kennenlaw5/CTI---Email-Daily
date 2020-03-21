@@ -88,14 +88,14 @@ function indvCheckBoxChange(boxValue, team) {
 
 function mainCheckBoxUpdate(e) {
   var sheet = e.source.getActiveSheet();
+  var row = e.range.getRow();
   var col = e.range.getColumn();
   var incCol = driver('Include');
+  var team = sheet.getRange(row, 1).getValue();
   
-  if (col !== incCol) return;
+  if (col !== incCol || !team) return;
   
   var val = e.value === 'TRUE';
-  var row = e.range.getRow();
-  var team = sheet.getRange(row, 1).getValue();
   
   var newVal = singleCheckBoxValidation(team, sheet.getRange(row, incCol));
   val = newVal === null ? val : newVal;
